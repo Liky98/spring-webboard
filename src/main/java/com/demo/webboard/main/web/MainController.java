@@ -9,17 +9,21 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 @Controller
 public class MainController {
+
+    private final static Logger LOGGER = Logger.getLogger(String.valueOf(MainController.class));
 
     @Resource
     private BoardService boardService;
 
     @GetMapping({"", "/"})
     public ModelAndView mainView(ModelAndView mav, HttpServletRequest request) throws Exception {
-        mav.setViewName("main/mainView");
+        LOGGER.info("### MAIN PAGE");
 
+        mav.setViewName("main/mainView");
         return mav;
     }
 
