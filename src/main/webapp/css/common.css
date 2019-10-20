@@ -1,0 +1,41 @@
+body {
+    background-color: #eee;
+    min-width: 800px;
+}
+header, footer, nav, section {
+    border: 1px solid #999;
+    margin: 5px;
+    padding: 10px;
+}
+header {
+    height: 30px;
+}
+header div {
+    float: left;
+    width: 50%;
+}
+header .header-left {
+    text-align: left;
+}
+header .header-right {
+    text-align: right;
+}
+nav, section {
+    float: left;
+    height: 650px;
+    padding: 20px;
+}
+nav {
+    width: 200px;
+}
+section {
+    width: calc(100% - 304px);
+}
+footer {
+    height: 30px;
+    position: relative;
+    clear: both;
+}
+
+
+

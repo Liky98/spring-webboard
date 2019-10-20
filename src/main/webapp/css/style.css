@@ -1,0 +1,205 @@
+
+/* login */
+.container-u {
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: 15px;
+    padding-left: 15px;
+    width: 100%;
+    min-width: 540px;
+}
+#container.container-u {
+    width: calc(100% - 38px);
+}
+.form-u {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+.form-u-heading {
+    margin-bottom: 10px;
+    font-size: 2rem;
+}
+.container-u p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+.sr-only {
+    display: inline-block;
+    margin-bottom: .5rem;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    -webkit-clip-path: inset(50%);
+    clip-path: inset(50%);
+    border: 0;
+}
+.form-control {
+    display: block;
+    width: 100%;
+    padding: .5rem .75rem;
+    font-size: 1rem;
+    line-height: 1.25;
+    color: #495057;
+    background-color: #fff;
+    background-image: none;
+    background-clip: padding-box;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: .25rem;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+.form-u .form-control {
+    position: relative;
+    box-sizing: border-box;
+    height: auto;
+    padding: 10px;
+    font-size: 16px;
+}
+.form-join {
+    text-align: center;
+}
+
+/* button */
+.btn {
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: .5rem .75rem;
+    font-size: 1rem;
+    line-height: 1.25;
+    border-radius: .25rem;
+    transition: all .15s ease-in-out;
+    cursor: pointer;
+    text-decoration: none;
+}
+.btn-primary {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+.btn-group-lg>.btn, .btn-lg {
+    padding: .5rem 1rem;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    border-radius: .3rem;
+}
+.btn-block {
+    display: block;
+    width: 100%;
+}
+mark {
+    color: red;
+    background: none;
+}
+
+
+/* paging*/
+.paginate {
+    text-align: center;
+}
+.paginate > .pagination {
+    list-style: none;
+}
+.paginate > .pagination > li {
+    float: left;
+    margin: 0px 10px;
+}
+.paginate > .pagination > li > a,
+.paginate > .pagination > li > a:focus,
+.paginate > .pagination > li > a:hover,
+.paginate > .pagination > li > span,
+.paginate > .pagination > li > span:focus,
+.paginate > .pagination > li > span:hover {
+    text-decoration: none;
+    color : #172D44;
+}
+.paginate > .pagination > .active > a,
+.paginate > .pagination > .active > a:focus,
+.paginate > .pagination > .active > a:hover,
+.paginate > .pagination > .active > span,
+.paginate > .pagination > .active > span:focus,
+.paginate > .pagination > .active > span:hover {
+    color : #fff;
+    background-color: #172D44;
+    border-color: #172D44;
+}
+.paginate > .pagination > .disabled > a,
+.paginate > .pagination > .disabled > a:focus,
+.paginate > .pagination > .disabled > a:hover,
+.paginate > .pagination > .disabled > span,
+.paginate > .pagination > .disabled > span:focus,
+.paginate > .pagination > .disabled > span:hover {
+    cursor: default;
+    color: #aaa;
+}
+
+/* table */
+table {
+    width: 500px;
+    margin: 20px 0px;
+    border: 1px solid #999;
+    border-collapse: collapse;
+}
+table th {
+    font-weight: bold;
+}
+table th,
+table td {
+    padding: 5px;
+    border: 1px solid #999;
+}
+
+.inp {
+    width: calc(100% - 15px);
+    padding: 5px;
+}
+
+#sidebar .on {
+    font-weight: bold;
+}
+
+
+/* modal */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+.modal-container {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%; /* Could be more or less, depending on screen size */
+    min-height: 100px;
+}
+.modal-close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.modal-close:hover,
+.modal-close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
