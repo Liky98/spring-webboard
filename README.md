@@ -30,7 +30,7 @@
 >> 3. war로 빌드 후 실행한다.
 
 <br/>
----
+<hr/>
 <br/>
 
 ## [ERD](src/main/resources/schema.sql)
@@ -68,6 +68,19 @@
 |ADMIN|게시판 관리 화면|/admin/board|GET|
 |ADMIN|게시판 생성|/admin/board/{boardNo}|POST|
 |ADMIN|게시판 삭제|/admin/board/{boardNo}|DELETE|
+
+#### 게시글 목록 화면
+![게시글목록화면](./src/main/webapp/img/boardList.jpg)
+
+#### 게시글 상세 화면
+![게시글상세화면](./src/main/webapp/img/postView.jpg)
+
+#### 사용자 페이지 - 사용자 정보 수정
+![사용자페이지](./src/main/webapp/img/userView.jpg)
+
+#### 관리자페이지 - 게시판 관리 화면
+![관리자페이지](./src/main/webapp/img/adminView.jpg)
+
 <br/>
 
 ## [Spring Security](src/main/java/com/demo/webboard/config/security)
@@ -128,7 +141,109 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         return sb.toString();
     }
 ```
-<br/>
 
 
+## ParameterMap Setting
+`mybatis`를 사용하면서 `parameterType`과 `resultType`으로 `Map`을 사용하였는데 `key`값이 대문자로 저장이 됐다.<br/>
+전자정부프레임워크(egovFramework)에서는 `EgovMap`가 처리해줬지만 spring엔 제공하는 라이브러리가 없다.<br/>
+`key`값을 대문자에서 소문자로 변경하는 방법은 몇가지가 있지만 전자정부프레임워크 방법을 선택했다.<br/>
 
+[ParamMap.java](src/main/java/com/demo/webboard/util/ParamMap.java)
+```
+public class ParamMap extends ListOrderedMap {
+    // ...
+
+    public Object put(Object key, Object value) {
+        // StringUtils.lowerCase 로 key값을 소문자로 변경 (USER_NAME => user_name)
+        // JdbcUtils.convertUnderscoreNameToPropertyName 로 key값을 camelCase로 변경 (user_name => userName)
+        return super.put(JdbcUtils.convertUnderscoreNameToPropertyName(StringUtils.lowerCase((String) key)), value);
+    }
+}
+```
+application.yml
+```
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml
+  type-aliases-package: com.demo.webboard.util
+```
+mapper/*.xml
+```
+<select id="selectPostList" parameterType="ParamMap" resultType="ParamMap">
+    ...
+</select>
+```
+
+## Transaction
+[DefaultTransactionManager.java](src/main/java/com/demo/webboard/util/DefaultTransactionManager.java)
+```
+@Service
+@Scope("prototype")
+public class DefaultTransactionManager extends DefaultTransactionDefinition {
+
+    @Autowired
+    PlatformTransactionManager transactionManager;
+
+    // ...
+```
+extends [CmmnAbstractServiceImpl](src/main/java/com/demo/webboard/util/CmmnAbstractServiceImpl.java)
+```
+@Service
+@Transactional
+public class BoardServiceImpl extends CmmnAbstractServiceImpl {
+    // ...
+    @Override
+    public int deleteBoardMap(long boardNo) {
+        DefaultTransactionManager tx = getTransactionManager(); // 트랜잭션 처리
+        tx.start();
+
+        int result;
+        try {
+            Map<String, Object> paramsMap = new HashMap<>();
+            paramsMap.put("boardNo", boardNo);
+            boardMapper.deletePostMap(paramsMap);
+            result = boardMapper.deleteBoardMap(paramsMap);
+        } catch (Exception e) {
+            result = -1;
+            tx.rollback();
+        }
+        tx.commit();
+        tx.end();
+        return result;
+    }
+```
+
+## Paging
+[Paging.java](src/main/java/com/demo/webboard/util/Paging.java)
+```
+public class Paging {
+    /**
+     * totalCount   : 게시 글 전체 수
+     * pageSize     : 한 페이지의 게시 글 수
+     * navSize      : 한단락 크기 (페이징 네비 크기)
+     * firstPageNo  : 첫 번째 페이지 번호
+     * prevPageNo   : 이전 페이지 번호
+     * startPageNo  : 시작 페이지 (페이징 네비 기준)
+     * pageNo       : 페이지 번호
+     * endPageNo    : 끝 페이지 (페이징 네비 기준)
+     * nextPageNo   : 다음 페이지 번호
+     * finalPageNo  : 마지막 페이지 번호
+     *
+     * @param paramsMap
+     * @return
+     */
+    public static Map<String, Object> makePaging(Map<String, Object> paramsMap) {
+        // ...
+```
+Controller
+```
+        paramsMap.put("totalCount", totalCount);
+        paramsMap.put("url", url);
+        paramsMap.put("pageNo", pageNo);
+        Paging.makePaging(paramsMap);
+        // select list
+        paramsMap.put("list", list);
+```
+include [paging.jsp](src/main/webapp/WEB-INF/view/include/paging.jsp)
+```
+    <%@ include file="/WEB-INF/view/include/paging.jsp" %>
+```
