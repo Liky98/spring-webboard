@@ -11,7 +11,7 @@ public class ParamMap extends ListOrderedMap {
 
     /**
      * key에 대하여 소문자로 변환하여 super.put(ListOrderedMap)을 호출한다.
-     * 전자정보의 EgovMap을 살펴보면 ListOrderedMap을 상속받고 camelCase로 key를 셋팅하도록 되어있다.
+     * 전자정부프레임워크의 EgovMap을 살펴보면 ListOrderedMap을 상속받고 camelCase로 key를 셋팅하도록 되어있다.
      * @param key
      *        - '_'가 포함된 변수명
      * @param value

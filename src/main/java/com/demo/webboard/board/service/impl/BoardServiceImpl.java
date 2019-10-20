@@ -75,11 +75,6 @@ public class BoardServiceImpl extends CmmnAbstractServiceImpl implements BoardSe
     }
     @Override
     public List<Map<String, Object>> selectPostList(Map<String, Object> paramsMap) throws Exception {
-//        List<Map<String, Object>> list = boardMapper.selectPostList(paramsMap);
-//        list.forEach(v -> {
-//            String content = (String) v.get("content");
-//
-//        });
         return boardMapper.selectPostList(paramsMap);
     }
 

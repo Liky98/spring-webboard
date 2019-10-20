@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>사이트 : 메인</title>
+    <title>사이트 : 사용자페이지</title>
 
     <script src="/js/common/include.js" charset="utf-8"></script>
     <link rel="stylesheet" type="text/css" href="/css/style.css" />
