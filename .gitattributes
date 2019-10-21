@@ -1,35 +1,4 @@
-# https://github.com/alexkaratarakis/gitattributes
-
-
-# Java sources
-*.java          text diff=java
-*.gradle        binary
-*.gradle.kts    binary
-
-*.css           binary
-*.df            binary
-*.htm           binary
-*.html          binary
-*.js            binary
-*.jsp           binary
-*.jspf          binary
-*.jspx          binary
-*.properties    binary
-*.tld           binary
-*.tag           binary
-*.tagx          binary
-*.xml           binary
-
-*.class         binary
-*.dll           binary
-*.ear           binary
-*.jar           binary
-*.so            binary
-*.war           binary
-
-*.gitattributes binary
-.gitignore      binary
-*.md            binary
-
-
-
+$ cat .gitattributes
+*.rb linguist-language=Java
+*.rb linguist-vendored=Java
+jc_ansiterm_0.1/* linguist-vendored=true
