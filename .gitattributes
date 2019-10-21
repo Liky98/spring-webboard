@@ -2,27 +2,24 @@
 
 
 # Java sources
-# *.java          text diff=java
-*.gradle        text diff=java
-*.gradle.kts    text diff=java
+*.java          text diff=java
+*.gradle        binary
+*.gradle.kts    binary
 
-# These files are text and should be normalized (Convert crlf => lf)
-*.css           text diff=css
-*.df            text
-*.htm           text diff=html
-*.html          text diff=html
-*.js            text
-*.jsp           text
-*.jspf          text
-*.jspx          text
-*.properties    text
-*.tld           text
-*.tag           text
-*.tagx          text
-*.xml           text
+*.css           binary
+*.df            binary
+*.htm           binary
+*.html          binary
+*.js            binary
+*.jsp           binary
+*.jspf          binary
+*.jspx          binary
+*.properties    binary
+*.tld           binary
+*.tag           binary
+*.tagx          binary
+*.xml           binary
 
-# These files are binary and should be left untouched
-# (binary is a macro for -text -diff)
 *.class         binary
 *.dll           binary
 *.ear           binary
@@ -30,20 +27,9 @@
 *.so            binary
 *.war           binary
 
+*.gitattributes binary
+.gitignore      binary
+*.md            binary
 
-#
-# The above will handle all files NOT found below
-#
-# These files are text and should be normalized (Convert crlf => lf)
-*.gitattributes text
-.gitignore      text
-*.md            text
-
-#
-# Exclude files from exporting
-#
-
-.gitattributes  export-ignore
-.gitignore      export-ignore
 
 
