@@ -6,9 +6,9 @@
 * Java : jdk 1.8
 * Framework : SpringBoot 2.1.x
 * Build : Gradle 5.6.x
-* DB : H2
+* DB : [H2](https://blog.naver.com/myh814/221684433033)
 * mybatis
-* Front-end : jsp, [bootstrap admin](https://startbootstrap.com/templates/sb-admin/)
+* Front-end : [jsp](https://blog.naver.com/myh814/221684419549), [bootstrap admin](https://startbootstrap.com/templates/sb-admin/)
 <br/><br/>
 
 ## BUILD
@@ -37,6 +37,8 @@
 ![erd](./src/main/webapp/img/erd.png)
 
 #### [USER](src/main/resources/data.sql)
+계정은 다음과 같다.
+
 |ROLE|USER_ID|PASSWORD|
 |---|---|---|
 |ADMIN|admin|1234|
@@ -46,9 +48,18 @@
 |USER|user4|1234|
 |USER|user5|1234|
 |USER|user6|1234|
+
+#### script encoding
+data.sql을 사용할때 한글깨짐이 발생한다. [상세](https://blog.naver.com/myh814/221684494896)
+application.yml에 다음과 같이 설정을 추가한다.
+```
+spring:
+  datasource:
+    sql-script-encoding: UTF-8
+```
 <br/>
 
-## REST API
+## [REST API](https://blog.naver.com/myh814/221684474038)
 |ROLE|ACTION|URI|Method|
 |---|---|---|---|
 |Anonymous|메인 페이지|/|GET|
@@ -113,6 +124,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     // ...
 }
 ```
+#### [ROLE](https://blog.naver.com/myh814/221684510475)
+|ROLE_NO|ROLE|
+|---|---|
+|1|ADMIN|
+|2|USER|
+
 #### [Password Encoding](src/main/java/com/demo/webboard/config/security/WebAuthenticationProvider.java)
 ```
     @Bean
@@ -141,12 +158,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         return sb.toString();
     }
 ```
-
+<br/>
 
 ## ParameterMap Setting
 `mybatis`를 사용하면서 `parameterType`과 `resultType`으로 `Map`을 사용하였는데 `key`값이 대문자로 저장이 됐다.<br/>
 전자정부프레임워크(egovFramework)에서는 `EgovMap`가 처리해줬지만 spring엔 제공하는 라이브러리가 없다.<br/>
-`key`값을 대문자에서 소문자로 변경하는 방법은 몇가지가 있지만 전자정부프레임워크 방법을 선택했다.<br/>
+`key`값을 대문자에서 소문자로 변경하는 방법은 몇가지가 있지만 전자정부프레임워크 방법을 선택했다. 
+[상세](https://blog.naver.com/myh814/221684455925)<br/>
 
 [ParamMap.java](src/main/java/com/demo/webboard/util/ParamMap.java)
 ```
@@ -172,6 +190,7 @@ mapper/*.xml
     ...
 </select>
 ```
+<br/>
 
 ## Transaction
 [DefaultTransactionManager.java](src/main/java/com/demo/webboard/util/DefaultTransactionManager.java)
@@ -211,6 +230,7 @@ public class BoardServiceImpl extends CmmnAbstractServiceImpl {
         return result;
     }
 ```
+<br/>
 
 ## Paging
 [Paging.java](src/main/java/com/demo/webboard/util/Paging.java)
