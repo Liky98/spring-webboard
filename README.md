@@ -50,7 +50,7 @@
 |USER|user6|1234|
 
 #### script encoding
-data.sql을 사용할때 한글깨짐이 발생한다. [상세](https://blog.naver.com/myh814/221684494896)
+data.sql을 사용할때 한글깨짐이 발생한다. [상세](https://blog.naver.com/myh814/221684494896) <br/>
 application.yml에 다음과 같이 설정을 추가한다.
 ```
 spring:
