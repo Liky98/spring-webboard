@@ -1,4 +1,6 @@
-$ cat .gitattributes
-*.rb linguist-language=Java
-*.rb linguist-vendored=Java
-jc_ansiterm_0.1/* linguist-vendored=true
+src/main/resources/* linguist-vendored
+src/main/webapp/* linguist-vendored
+
+*.java          text
+*.class         binary
+*.war           binary
