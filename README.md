@@ -77,7 +77,7 @@ spring:
 |USER|사용자 정보 수정|/user|POST|
 |ADMIN|관리자 페이지|/admin|GET|
 |ADMIN|게시판 관리 화면|/admin/board|GET|
-|ADMIN|게시판 생성|/admin/board/{boardNo}|POST|
+|ADMIN|게시판 생성|/admin/board/|POST|
 |ADMIN|게시판 삭제|/admin/board/{boardNo}|DELETE|
 
 #### 게시글 목록 화면
