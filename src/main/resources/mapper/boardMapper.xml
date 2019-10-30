@@ -13,8 +13,7 @@
         SELECT BOARD_NO
              , NAME
           FROM BOARD
-         WHERE 1=1
-           AND BOARD_NO = #{boardNo}
+         WHERE BOARD_NO = #{boardNo}
     </select>
     <insert id="insertBoardMap" parameterType="ParamMap" useGeneratedKeys="false">
         <selectKey keyProperty="boardNo" resultType="long" order="AFTER">
@@ -28,8 +27,7 @@
     </insert>
     <delete id="deleteBoardMap" parameterType="ParamMap">
         DELETE FROM BOARD
-        WHERE 1=1
-        AND BOARD_NO = #{boardNo}
+        WHERE BOARD_NO = #{boardNo}
     </delete>
 
 
@@ -37,8 +35,7 @@
     <select id="selectPostListCount" parameterType="ParamMap" resultType="int">
         SELECT COUNT(*) CNT
           FROM POST
-         WHERE 1=1
-           AND BOARD_NO = #{boardNo}
+         WHERE BOARD_NO = #{boardNo}
     </select>
     <select id="selectPostList" parameterType="ParamMap" resultType="ParamMap">
         SELECT BOARD_NO
@@ -54,13 +51,11 @@
              FROM (
                 SELECT *
                   FROM POST
-                 WHERE 1=1
-                   AND BOARD_NO = #{boardNo}
+                 WHERE BOARD_NO = #{boardNo}
                  ORDER BY POST_NO DESC
             )
         )
-        WHERE 1=1
-        <![CDATA[ AND rnum > (#{pageNo} * #{pageSize}) - #{pageSize} AND rnum  <= (#{pageNo} * #{pageSize}) ]]>
+        <![CDATA[ WHERE rnum > (#{pageNo} * #{pageSize}) - #{pageSize} AND rnum  <= (#{pageNo} * #{pageSize}) ]]>
     </select>
     <insert id="insertPostMap" parameterType="ParamMap">
         INSERT INTO POST (
@@ -90,8 +85,7 @@
              , FORMATDATETIME(CREATE_DT, 'yyyy-MM-dd HH:mm:ss') AS CREATE_DT
              , FORMATDATETIME(UPDATE_DT, 'yyyy-MM-dd HH:mm:ss') AS UPDATE_DT
           FROM POST
-         WHERE 1=1
-           AND BOARD_NO = #{boardNo}
+         WHERE BOARD_NO = #{boardNo}
            AND POST_NO = #{postNo}
     </select>
     <update id="updatePostMap" parameterType="paramMap">
@@ -99,14 +93,12 @@
            SET TITLE = #{title}
              , CONTENT = #{content}
              , UPDATE_DT = NOW()
-         WHERE 1=1
-           AND BOARD_NO = #{boardNo}
+         WHERE BOARD_NO = #{boardNo}
            AND POST_NO = #{postNo}
     </update>
     <delete id="deletePostMap" parameterType="ParamMap">
         DELETE FROM POST
-         WHERE 1=1
-           AND BOARD_NO = #{boardNo}
+         WHERE BOARD_NO = #{boardNo}
         <if test='postNo != null and postNo != ""'>
            AND POST_NO = #{postNo}
         </if>
