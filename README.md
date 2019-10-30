@@ -4,10 +4,10 @@
 ## SKILL
 * 개발도구 : IntelliJ
 * Java : jdk 1.8
-* Framework : SpringBoot 2.1.x
-* Build : Gradle 5.6.x
-* DB : [H2](https://blog.naver.com/myh814/221684433033)
-* mybatis
+* Framework : SpringBoot 2.1
+* Build : Gradle 5.6
+* In-Memory DB : [H2](https://blog.naver.com/myh814/221684433033)
+* Mapper : mybatis
 * Front-end : [jsp](https://blog.naver.com/myh814/221684419549), [bootstrap admin](https://startbootstrap.com/templates/sb-admin/)
 <br/><br/>
 
@@ -77,7 +77,7 @@ spring:
 |USER|사용자 정보 수정|/user|POST|
 |ADMIN|관리자 페이지|/admin|GET|
 |ADMIN|게시판 관리 화면|/admin/board|GET|
-|ADMIN|게시판 생성|/admin/board/|POST|
+|ADMIN|게시판 생성|/admin/board|POST|
 |ADMIN|게시판 삭제|/admin/board/{boardNo}|DELETE|
 
 #### 게시글 목록 화면
@@ -139,19 +139,22 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 ```
 #### Find Password - [Create temporary password](src/main/java/com/demo/webboard/main/service/impl/UserServiceImpl.java)
 ```
-    public String getRamdomPassword() {
+    private String getRamdomPassword() {
         char[] charSet = new char[] {
                 '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
                 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-                'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
-                '!','@','#','$','%','^','&' };
+                'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+                '!', '@', '#', '$', '%', '^', '&' };
 
         StringBuffer sb = new StringBuffer();
+        SecureRandom sr = new SecureRandom();
+        sr.setSeed(new Date().getTime());
 
         int idx = 0;
         int len = charSet.length;
         for (int i=0; i<10; i++) {
-            idx = (int) (len * Math.random());
+//            idx = (int) (len * Math.random());
+            idx = sr.nextInt(len);    // 강력한 난수를 발생시키기 위해 SecureRandom을 사용한다.
             sb.append(charSet[idx]);
         }
 

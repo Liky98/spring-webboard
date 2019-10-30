@@ -14,14 +14,14 @@ import java.util.logging.Logger;
 @Controller
 public class MainController {
 
-    private final static Logger LOGGER = Logger.getLogger(String.valueOf(MainController.class));
+//    private final static Logger LOGGER = Logger.getLogger(String.valueOf(MainController.class));
 
     @Resource
     private BoardService boardService;
 
     @GetMapping({"", "/"})
     public ModelAndView mainView(ModelAndView mav, HttpServletRequest request) throws Exception {
-        LOGGER.info("### MAIN PAGE");
+//        LOGGER.info("### MAIN PAGE");
 
         mav.setViewName("main/mainView");
         return mav;

@@ -15,9 +15,9 @@ public class DefaultTransactionManager extends DefaultTransactionDefinition {
     private static final long serialVersionUID = -1375151959664915520L;
 
     @Autowired
-    PlatformTransactionManager transactionManager;
+    private PlatformTransactionManager transactionManager;
 
-    TransactionStatus status;
+    private TransactionStatus status;
 
     public void start() throws TransactionException {
         status = transactionManager.getTransaction(this);

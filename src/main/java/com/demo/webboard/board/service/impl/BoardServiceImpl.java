@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-@Transactional
+//@Transactional
 public class BoardServiceImpl extends CmmnAbstractServiceImpl implements BoardService {
 
     @Autowired

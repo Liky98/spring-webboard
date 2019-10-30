@@ -3,6 +3,7 @@ package com.demo.webboard.config.filter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
+@Deprecated
 public class HTMLTagFilterRequestWrapper extends HttpServletRequestWrapper {
 
     public HTMLTagFilterRequestWrapper(HttpServletRequest request) {

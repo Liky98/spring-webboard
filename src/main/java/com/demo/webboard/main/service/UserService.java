@@ -19,7 +19,5 @@ public interface UserService {
     // 비밀번호 찾기
     Map<String, Object> findPassword(UserVO userVO) throws Exception;
 
-    // 임시비밀번호 생성
-    String getRamdomPassword();
 
 }
