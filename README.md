@@ -21,7 +21,7 @@
 >> 3. `http://localhost:8080`으로 접속한다.
 > ### 실행방법 2
 >> 1. [git파일](https://github.com/moonsiri/spring-webboard)을 다운받는다.
->> 2. 개발툴에 import 하여 실행한다.
+>> 2. 개발툴에 import 하여 실행한다. (단, [Lombok](https://blog.naver.com/myh814/221504225671)설정해줘야함)
 > ### 실행방법 3
 >> 1. [git파일](https://github.com/moonsiri/spring-webboard)을 다운받는다.
 >> 2. [build.gradle](build.gradle) 파일에서 `// war로 빌드 시` 부분의 주석을 제거한다.
