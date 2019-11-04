@@ -79,6 +79,9 @@ spring:
 |ADMIN|게시판 생성|/admin/board|POST|
 |ADMIN|게시판 삭제|/admin/board/{boardNo}|DELETE|
 
+#### 로그인 화면
+![로그인화면](./src/main/webapp/img/login.jpg)
+
 #### 게시글 목록 화면
 ![게시글목록화면](./src/main/webapp/img/boardList.jpg)
 
