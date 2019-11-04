@@ -288,7 +288,7 @@ public class Paging {
      * @param paramsMap
      * @return
      */
-    public static Map<String, Object> makePaging(Map<String, Object> paramsMap) {
+    public void makePaging() makePaging(Map<String, Object> paramsMap) {
         // ...
 ```
 Controller
