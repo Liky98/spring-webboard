@@ -1,6 +1,6 @@
-package com.demo.webboard.main.mapper;
+package com.demo.webboard.user.mapper;
 
-import com.demo.webboard.main.vo.UserVO;
+import com.demo.webboard.user.vo.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -12,10 +12,10 @@ public interface UserMapper {
 
     List<String> selectUserRoleList(String userNo);
 
-    UserVO selectUserMap(UserVO userVO);
+    User selectUserMap(User user);
 
-    int selectUserCount(UserVO userVO);
+    int selectUserCount(User user);
 
-    int updateUserInfo(UserVO userVO);
+    int updateUserInfo(User user);
 
 }

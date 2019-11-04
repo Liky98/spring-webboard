@@ -1,6 +1,7 @@
 package com.demo.webboard.main.web;
 
 import com.demo.webboard.board.service.BoardService;
+import com.demo.webboard.board.vo.Board;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -8,13 +9,11 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
-import java.util.logging.Logger;
 
 @Controller
 public class MainController {
 
-//    private final static Logger LOGGER = Logger.getLogger(String.valueOf(MainController.class));
+//    private Logger LOGGER = Logger.getLogger(this.getClass().getName());
 
     @Resource
     private BoardService boardService;
@@ -35,7 +34,7 @@ public class MainController {
      */
     @GetMapping("/board/boardSideList")
     public ModelAndView boardSideList(ModelAndView mav, String boardNo) throws Exception {
-        List<Map<String, Object>> list = boardService.selectBoardList();
+        List<Board> list = boardService.selectBoardList();
 
         mav.addObject("list", list);
         mav.addObject("boardNo", boardNo);

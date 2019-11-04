@@ -1,6 +1,7 @@
 package com.demo.webboard.admin.web;
 
 import com.demo.webboard.board.service.BoardService;
+import com.demo.webboard.board.vo.Board;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -8,7 +9,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/admin")
@@ -40,7 +40,7 @@ public class AdminController {
      */
     @GetMapping("/board")
     public ModelAndView adminBoardView(ModelAndView mav, HttpServletRequest request) throws Exception {
-        List<Map<String, Object>> list = boardService.selectBoardList();
+        List<Board> list = boardService.selectBoardList();
 
         mav.addObject("list", list);
         mav.setViewName("admin/boardReadView");
@@ -49,8 +49,8 @@ public class AdminController {
 
     @PostMapping("/board")
     @ResponseBody
-    public String createBoardMap(@RequestBody Map<String, Object> paramsMap) throws Exception {
-        return boardService.insertBoardMap(paramsMap);
+    public String createBoardMap(@RequestBody Board board) throws Exception {
+        return boardService.insertBoardMap(board);
     }
 
     @PutMapping("/board/{boardNo}")

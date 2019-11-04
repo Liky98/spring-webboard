@@ -1,6 +1,7 @@
 package com.demo.webboard.util;
 
-import com.demo.webboard.main.vo.UserVO;
+import com.demo.webboard.board.vo.Board;
+import com.demo.webboard.user.vo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 @Service("myBatisSupport")
 public class CmmnAbstractServiceImpl {
@@ -18,11 +20,13 @@ public class CmmnAbstractServiceImpl {
     @Autowired
     ApplicationContext applicationContext;
 
+    private Logger LOGGER = Logger.getLogger(this.getClass().getName());
+
     /**
      * 트랜잭션 처리
      * @return
      */
-    public DefaultTransactionManager getTransactionManager() {
+    protected DefaultTransactionManager getTransactionManager() {
         return applicationContext.getBean(DefaultTransactionManager.class);
     }
 
@@ -33,18 +37,19 @@ public class CmmnAbstractServiceImpl {
      * @return
      * @throws Exception
      */
+    @Deprecated
     protected Map getLoginSessionMap(Map<String, Object> paramsMap) throws Exception {
-        UserVO userVO = getUserData();
-        if (null == userVO) {
+        User user = getUserData();
+        if (null == user) {
             return null;
         }
 
-        Field[] fields = userVO.getClass().getDeclaredFields();
+        Field[] fields = user.getClass().getDeclaredFields();
 
         try {
             for (int i = 0; i <= fields.length - 1; i++) {
                 fields[i].setAccessible(true);
-                paramsMap.put(fields[i].getName(), fields[i].get(userVO));
+                paramsMap.put(fields[i].getName(), fields[i].get(user));
             }
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
@@ -54,6 +59,8 @@ public class CmmnAbstractServiceImpl {
 
         return paramsMap;
     }
+
+    @Deprecated
     protected Map getLoginSessionMap() throws Exception {
         Map resultMap = new HashMap<String, Object>();
         return getLoginSessionMap(resultMap);
@@ -63,12 +70,12 @@ public class CmmnAbstractServiceImpl {
      * session에 존재하는 login vo객제
      * @return
      */
-    protected UserVO getUserData() {
+    protected User getUserData() {
         HttpSession session = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getSession();
-        UserVO userVO = (UserVO) session.getAttribute("loginVO");
+        User user = (User) session.getAttribute("user");
 
-        if (null != userVO && null != userVO.getUserId()) {
-            return userVO;
+        if (null != user && null != user.getUserId()) {
+            return user;
         } else {
             return null;
         }
@@ -87,16 +94,38 @@ public class CmmnAbstractServiceImpl {
             return null;
         }
     }
+    protected String getNickname() {
+        HttpSession session = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getSession();
+        String nickname = (String) session.getAttribute("nickname");
+
+        if (null != nickname) {
+            return nickname;
+        } else {
+            return null;
+        }
+    }
+
+    @Deprecated
+    protected String getSessionData(String attribute) {
+        HttpSession session = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getSession();
+        String returnString = (String) session.getAttribute(attribute);
+
+        if (null != returnString) {
+            return returnString;
+        } else {
+            return null;
+        }
+    }
 
     /**
      * session 정보 등록
-     * @param userVO
+     * @param user
      */
-    protected void setUserData(UserVO userVO) {
+    protected void setUserData(User user) {
         HttpSession session = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getSession();
-        session.setAttribute("loginVO", userVO);
-        session.setAttribute("userId", userVO.getUserId());
-        session.setAttribute("userName", userVO.getUserName());
-        session.setAttribute("nickname", userVO.getNickname());
+        session.setAttribute("user", user);
+        session.setAttribute("userId", user.getUserId());
+        session.setAttribute("userName", user.getUserName());
+        session.setAttribute("nickname", user.getNickname());
     }
 }

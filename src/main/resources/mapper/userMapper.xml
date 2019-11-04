@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.demo.webboard.main.mapper.UserMapper">
+<mapper namespace="com.demo.webboard.user.mapper.UserMapper">
 
     <select id="selectUserRoleList" resultType="String" >
         SELECT R.ROLE
@@ -11,7 +11,7 @@
          WHERE UR.USER_NO = #{userNo}
     </select>
 
-    <select id="selectUserMap" parameterType="com.demo.webboard.main.vo.UserVO" resultType="com.demo.webboard.main.vo.UserVO" >
+    <select id="selectUserMap" parameterType="com.demo.webboard.user.vo.User" resultType="com.demo.webboard.user.vo.User" >
         SELECT USER_ID
              , USER_NAME
              , NICKNAME
@@ -34,7 +34,7 @@
          </choose>
     </select>
 
-    <select id="selectUserCount" parameterType="com.demo.webboard.main.vo.UserVO" resultType="int" >
+    <select id="selectUserCount" parameterType="com.demo.webboard.user.vo.User" resultType="int" >
         SELECT COUNT(*)
           FROM USER
          WHERE 1=1
@@ -55,7 +55,7 @@
          </choose>
     </select>
 
-    <update id="updateUserInfo" parameterType="com.demo.webboard.main.vo.UserVO" >
+    <update id="updateUserInfo" parameterType="com.demo.webboard.user.vo.User" >
         UPDATE USER
            SET PASSWORD = #{password}
            <if test='nickname != null and nickname != ""'>

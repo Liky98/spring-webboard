@@ -2,15 +2,13 @@ package com.demo.webboard.board.service.impl;
 
 import com.demo.webboard.board.mapper.BoardMapper;
 import com.demo.webboard.board.service.BoardService;
+import com.demo.webboard.board.vo.Board;
 import com.demo.webboard.util.CmmnAbstractServiceImpl;
 import com.demo.webboard.util.DefaultTransactionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 //@Transactional
@@ -20,23 +18,22 @@ public class BoardServiceImpl extends CmmnAbstractServiceImpl implements BoardSe
     private BoardMapper boardMapper;
 
     @Override
-    public List<Map<String, Object>> selectBoardList() throws Exception {
+    public List<Board> selectBoardList() throws Exception {
         return boardMapper.selectBoardList();
     }
 
     @Override
-    public Map<String, Object> selectBoardMap(long boardNo) throws Exception {
+    public Board selectBoardMap(long boardNo) throws Exception {
         return boardMapper.selectBoardMap(boardNo);
     }
 
     @Override
-    public String insertBoardMap(Map<String, Object> paramsMap) throws Exception {
-        String result;
+    public String insertBoardMap(Board board) throws Exception {
+        String result = "-1";
         try {
-            boardMapper.insertBoardMap(paramsMap);
+            boardMapper.insertBoardMap(board);
 
-            result = paramsMap.get("boardNo").toString();
-            if (null == result) {
+            if (null == board.getBoardNo()) {
                 result = "1";
             }
         } catch (Exception e) {
@@ -53,10 +50,10 @@ public class BoardServiceImpl extends CmmnAbstractServiceImpl implements BoardSe
 
         int result;
         try {
-            Map<String, Object> paramsMap = new HashMap<>();
-            paramsMap.put("boardNo", boardNo);
-            boardMapper.deletePostMap(paramsMap);
-            result = boardMapper.deleteBoardMap(paramsMap);
+            Board board = new Board();
+            board.setBoardNo(boardNo);
+            boardMapper.deletePostMap(board);
+            result = boardMapper.deleteBoardMap(board);
         } catch (Exception e) {
             result = -1;
             tx.rollback();
@@ -70,20 +67,21 @@ public class BoardServiceImpl extends CmmnAbstractServiceImpl implements BoardSe
 
 
     @Override
-    public int selectPostListCount(Map<String, Object> paramsMap) throws Exception {
-        return boardMapper.selectPostListCount(paramsMap);
+    public int selectPostListCount(Board board) throws Exception {
+        return boardMapper.selectPostListCount(board);
     }
     @Override
-    public List<Map<String, Object>> selectPostList(Map<String, Object> paramsMap) throws Exception {
-        return boardMapper.selectPostList(paramsMap);
+    public List<Board> selectPostList(Board board) throws Exception {
+        return boardMapper.selectPostList(board);
     }
 
     @Override
-    public int insertPostMap(Map<String, Object> paramsMap) throws Exception {
+    public int insertPostMap(Board board) throws Exception {
         int result = 0;
         try {
-            getLoginSessionMap(paramsMap);
-            boardMapper.insertPostMap(paramsMap);
+            board.setUserId(getUserId());
+            board.setNickname(getNickname());
+            boardMapper.insertPostMap(board);
             result = 1;
         } catch (Exception e) {
             result = -1;
@@ -93,17 +91,17 @@ public class BoardServiceImpl extends CmmnAbstractServiceImpl implements BoardSe
     }
 
     @Override
-    public Map<String, Object> selectPostMap(Map<String, Object> paramsMap) throws Exception {
-        return boardMapper.selectPostMap(paramsMap);
+    public Board selectPostMap(Board board) throws Exception {
+        return boardMapper.selectPostMap(board);
     }
 
     @Override
-    public int updatePostMap(Map<String, Object> paramsMap) throws Exception {
-        return boardMapper.updatePostMap(paramsMap);
+    public int updatePostMap(Board board) throws Exception {
+        return boardMapper.updatePostMap(board);
     }
 
     @Override
-    public int deletePostMap(Map<String, Object> paramsMap) throws Exception {
-        return boardMapper.deletePostMap(paramsMap);
+    public int deletePostMap(Board board) throws Exception {
+        return boardMapper.deletePostMap(board);
     }
 }

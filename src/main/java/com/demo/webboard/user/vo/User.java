@@ -1,6 +1,12 @@
-package com.demo.webboard.main.vo;
+package com.demo.webboard.user.vo;
 
-public class UserVO {
+import lombok.Data;
+
+/*
+    lombok을 설정한다. https://blog.naver.com/myh814/221504225671
+ */
+@Data
+public class User {
 
     private String userNo;
     private String userId;
@@ -12,6 +18,7 @@ public class UserVO {
     private String role;
     private String[] roles;
 
+/*
     public String getUserNo() {
         return userNo;
     }
@@ -82,5 +89,5 @@ public class UserVO {
 
     public void setRoles(String[] roles) {
         this.roles = roles;
-    }
+    }*/
 }

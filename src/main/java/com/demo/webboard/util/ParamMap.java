@@ -4,6 +4,7 @@ import org.apache.commons.collections.map.ListOrderedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.support.JdbcUtils;
 
+@Deprecated
 public class ParamMap extends ListOrderedMap {
     private static final long serialVersionUID = 4793434790501845972L;
 

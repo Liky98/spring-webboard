@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="/css/style.css" />
     <script type="text/javascript" src="/js/common/jquery-1.12.4.min.js" ></script>
     <script type="text/javascript" src="/js/common/jquery-ui.min.js" ></script>
+    <script type="text/javascript" src="/js/common/plugins.js" ></script>
     <script type="text/javascript" src="/js/main/login.js" ></script>
 </head>
 <body>
@@ -26,7 +27,6 @@
         </p>
 
         <c:if test="${not empty sessionScope['SPRING_SECURITY_LAST_EXCEPTION'].message }">
-            <br/>
             <p>
                 <label id="failMessage" style="color:red;">
                         ${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message }

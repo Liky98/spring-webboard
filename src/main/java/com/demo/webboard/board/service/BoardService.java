@@ -1,19 +1,20 @@
 package com.demo.webboard.board.service;
 
+import com.demo.webboard.board.vo.Board;
+
 import java.util.List;
-import java.util.Map;
 
 public interface BoardService {
 
-    List<Map<String, Object>> selectBoardList() throws Exception;
-    Map<String, Object> selectBoardMap(long boardNo) throws Exception;
-    String insertBoardMap(Map<String, Object> paramsMap) throws Exception;
+    List<Board> selectBoardList() throws Exception;
+    Board selectBoardMap(long boardNo) throws Exception;
+    String insertBoardMap(Board board) throws Exception;
     int deleteBoardMap(long boardNo) throws Exception;
 
-    int selectPostListCount(Map<String, Object> paramsMap) throws Exception;
-    List<Map<String, Object>> selectPostList(Map<String, Object> paramsMap) throws Exception;
-    int insertPostMap(Map<String, Object> paramsMap) throws Exception;
-    Map<String, Object> selectPostMap(Map<String, Object> paramsMap) throws Exception;
-    int updatePostMap(Map<String, Object> paramsMap) throws Exception;
-    int deletePostMap(Map<String, Object> paramsMap) throws Exception;
+    int selectPostListCount(Board board) throws Exception;
+    List<Board> selectPostList(Board board) throws Exception;
+    int insertPostMap(Board board) throws Exception;
+    Board selectPostMap(Board board) throws Exception;
+    int updatePostMap(Board board) throws Exception;
+    int deletePostMap(Board board) throws Exception;
 }

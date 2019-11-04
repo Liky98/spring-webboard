@@ -1,43 +1,40 @@
 package com.demo.webboard.util;
 
-import java.util.Map;
+import lombok.Data;
+
 import java.util.Optional;
 
+@Data
 public class Paging {
-    /**
-     * totalCount   : 게시 글 전체 수
-     * pageSize     : 한 페이지의 게시 글 수
-     * navSize      : 한단락 크기 (페이징 네비 크기)
-     * firstPageNo  : 첫 번째 페이지 번호
-     * prevPageNo   : 이전 페이지 번호
-     * startPageNo  : 시작 페이지 (페이징 네비 기준)
-     * pageNo       : 페이지 번호
-     * endPageNo    : 끝 페이지 (페이징 네비 기준)
-     * nextPageNo   : 다음 페이지 번호
-     * finalPageNo  : 마지막 페이지 번호
-     *
-     * @param paramsMap
-     * @return
-     */
-    public static Map<String, Object> makePaging(Map<String, Object> paramsMap) {
+    private int totalCount;    // 게시 글 전체 수
+    private int pageSize;    // 한 페이지의 게시 글 수
+    private int navSize;    // 한단락 크기 (페이징 네비 크기)
+    private int firstPageNo;    // 첫 번째 페이지 번호
+    private int prevPageNo;    // 이전 페이지 번호
+    private int startPageNo;    // 시작 페이지 (페이징 네비 기준)
+    private Integer pageNo;    // 페이지 번호
+    private int endPageNo;    // 끝 페이지 (페이징 네비 기준)
+    private int nextPageNo;    // 다음 페이지 번호
+    private int finalPageNo;    // 마지막 페이지 번호
+    private String url;
+
+
+
+    public void makePaging() {
         // 한 페이지의 게시 글 수
-        Integer pageSizeMap = (Integer) paramsMap.get("pageSize");
-        int pageSize = Optional.ofNullable(pageSizeMap).filter(n -> n != 0).orElse(10);
+        int pageSize = Optional.ofNullable(this.pageSize).filter(n -> n != 0).orElse(10);
         // 게시 글 전체 수
-        Integer totalCountMap = (Integer) paramsMap.get("totalCount");
-        int totalCount = Optional.ofNullable(totalCountMap).orElse(0);
+        int totalCount = Optional.ofNullable(this.totalCount).orElse(0);
         if (totalCount == 0) {
-            paramsMap.put("pageSize", pageSize);
-            paramsMap.put("totalCount", 0);
-            return null;    // 게시글 전체 수가 없는 경우
+            this.setPageSize(pageSize);
+            this.setTotalCount(0);
+            return;    // 게시글 전체 수가 없는 경우
         }
 
         // 한단락 크기 (페이징 네비 크기)
-        Integer navSizeMap = (Integer) paramsMap.get("navSize");
-        int navSize = Optional.ofNullable(navSizeMap).filter(n -> n != 0).orElse(10);
+        int navSize = Optional.ofNullable(this.navSize).filter(n -> n != 0).orElse(10);
         // 페이지 번호
-        Integer pageNoMap = (Integer) paramsMap.get("pageNo");
-        int pageNo = Optional.ofNullable(pageNoMap).filter(n -> n != 0).orElse(1);
+        int pageNo = Optional.ofNullable(this.pageNo).filter(n -> n != 0).orElse(1);
 
         // 시작 페이지 번호
         int firstPageNo = 1;
@@ -77,17 +74,16 @@ public class Paging {
         }
 
         //
-        paramsMap.put("totalCount", totalCount);
-        paramsMap.put("pageSize", pageSize);
-        paramsMap.put("navSize", navSize);
-        paramsMap.put("firstPageNo", firstPageNo);
-        paramsMap.put("prevPageNo", prevPageNo);
-        paramsMap.put("startPageNo", startPageNo);
-        paramsMap.put("pageNo", pageNo);
-        paramsMap.put("endPageNo", endPageNo);
-        paramsMap.put("nextPageNo", nextPageNo);
-        paramsMap.put("finalPageNo", finalPageNo);
+        this.setTotalCount(totalCount);
+        this.setPageSize(pageSize);
+        this.setNavSize(navSize);
+        this.setFirstPageNo(firstPageNo);
+        this.setPrevPageNo(prevPageNo);
+        this.setStartPageNo(startPageNo);
+        this.setPageNo(pageNo);
+        this.setEndPageNo(endPageNo);
+        this.setNextPageNo(nextPageNo);
+        this.setFinalPageNo(finalPageNo);
 
-        return paramsMap;
     }
 }

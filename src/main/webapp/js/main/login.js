@@ -17,6 +17,7 @@
                     url: "/pw"
                     ,type: "GET"
                     ,success: function(res) {
+                        $('#pwModal').find('.modal-container').attr('style', 'width:450px');
                         $('#pwModal').find('.modal-content').html(res);
                         $('#pwModal').show();
                     }

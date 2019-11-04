@@ -1,7 +1,7 @@
 package com.demo.webboard.config.security;
 
-import com.demo.webboard.main.service.UserService;
-import com.demo.webboard.main.vo.UserVO;
+import com.demo.webboard.user.service.UserService;
+import com.demo.webboard.user.vo.User;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -51,18 +51,18 @@ public class WebAuthenticationProvider implements AuthenticationProvider {
             throw new BadCredentialsException("로그인 정보를 찾을 수 없습니다.");
         }
 
-        UserVO userVO = new UserVO();
-        userVO.setUserId(userId);
+        User user = new User();
+        user.setUserId(userId);
         String userNo = null;
         try {
-            userVO = userService.selectUserMap(userVO); // userId로 user정보 조회
-            userNo = userVO.getUserNo();
+            user = userService.selectUserMap(user); // userId로 user정보 조회
+            userNo = user.getUserNo();
         } catch(Exception e) {
             throw new BadCredentialsException("로그인 정보를 찾을 수 없습니다.");
         }
 
         if (null != userNo || "".equals(userNo)) {
-            if (passwordEncoder().matches(password, userVO.getPassword())) { // 비밀번호 일치 확인
+            if (passwordEncoder().matches(password, user.getPassword())) { // 비밀번호 일치 확인
                 List<GrantedAuthority> roles = new ArrayList<GrantedAuthority>();
                 List<String> roleList = null;
                 try {

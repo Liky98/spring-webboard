@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<form id="pwForm" class="form-u" onsubmit="$login.ui.findPassword(this);return false;">
+<form id="pwForm" class="form-u" onsubmit="$login.ui.findPassword(this); return false;">
     <h2 class="form-u-heading">비밀번호 찾기</h2>
     <p>
         <label for="userId" class="sr-only">아이디</label>
@@ -13,5 +13,4 @@
     </p>
 
     <button class="btn btn-lg btn-primary btn-block" type="submit">비밀번호 찾기</button>
-
 </form>
