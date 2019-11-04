@@ -29,7 +29,7 @@ public class BoardServiceImpl extends CmmnAbstractServiceImpl implements BoardSe
 
     @Override
     public String insertBoardMap(Board board) throws Exception {
-        String result = "-1";
+        String result;
         try {
             boardMapper.insertBoardMap(board);
 

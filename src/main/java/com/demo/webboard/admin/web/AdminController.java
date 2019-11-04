@@ -2,13 +2,16 @@ package com.demo.webboard.admin.web;
 
 import com.demo.webboard.board.service.BoardService;
 import com.demo.webboard.board.vo.Board;
+import com.demo.webboard.board.vo.BoardValidator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("/admin")
@@ -16,6 +19,9 @@ public class AdminController {
 
     @Resource
     private BoardService boardService;
+
+    @Autowired
+    BoardValidator boardValidator;
 
     /**
      * 관리자 메인페이지
@@ -49,10 +55,25 @@ public class AdminController {
 
     @PostMapping("/board")
     @ResponseBody
-    public String createBoardMap(@RequestBody Board board) throws Exception {
-        return boardService.insertBoardMap(board);
+    public Map<String, Object> createBoardMap(@RequestBody Board board, BindingResult bindingResult) throws Exception {
+        Map<String, Object> result = new HashMap<>();
+
+        boardValidator.validate(board, bindingResult);
+        if (bindingResult.hasErrors()) {
+            List<String> message = new ArrayList<>();
+            bindingResult.getAllErrors().forEach(e -> {
+//                e.getCode();
+                message.add(e.getDefaultMessage());
+            });
+            result.put("message", message);
+        } else {
+            result.put("boardNo", boardService.insertBoardMap(board));
+        }
+
+        return result;
     }
 
+    @Deprecated
     @PutMapping("/board/{boardNo}")
     @ResponseBody
     public int updateBoardMap(@PathVariable("boardNo") long boardNo) throws Exception {

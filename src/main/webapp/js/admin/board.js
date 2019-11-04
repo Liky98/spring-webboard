@@ -4,6 +4,8 @@
     $board.ui = {
         rgstBtn: function() {
             var boardName = $('#createName').val();
+            /*
+            // spring validator로 대체
             if (!boardName) {
                 alert("게시판명을 입력하세요.");
                 $('#createName').focus();
@@ -13,7 +15,7 @@
                 alert("게시판명의 허용된 글자수가 초과되었습니다.");
                 $('#createName').focus();
                 return false;
-            }
+            }*/
 
             if (confirm("게시판을 생성하시겠습니까?")) {
                 var url = "/admin/board/";
@@ -25,7 +27,7 @@
                     ,dataType: "json"
                     ,contentType: 'application/json'
                     ,success: function(res) {
-                        if (res) {
+                        if (res.boardNo) {
                             $('#createName').val(null);
 
                             if ($('.tr-non').length == 1) {
@@ -34,14 +36,17 @@
 
                             var str = '';
                             str += '<tr class="tr">'
-                            str += '    <td>' + res + '</td>';
+                            str += '    <td>' + res.boardNo + '</td>';
                             str += '    <td>' + boardName + '</td>';
                             str += '    <td>';
                             // str += '        <button class="btn" >수정</button>';
-                            str += '        <button class="btn btn-danger" onclick="$board.ui.delBtn(this, '+res+');">삭제</button>';
+                            str += '        <button class="btn btn-danger" onclick="$board.ui.delBtn(this, '+res.boardNo+');">삭제</button>';
                             str += '    </td>';
                             str += '</tr>';
                             $('.list-board').append(str);
+                        } else if (res.message) {
+                            alert(res.message[0]);
+                            return false;
                         } else {
                             alert("게시판 생성 실패");
                         }

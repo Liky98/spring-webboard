@@ -15,11 +15,9 @@
 처음에 jar 파일로 빌드해서 실행을 했었는데, jsp 경로를 찾지 못했다.<br/>
 경로를 바꿔보고 삽질을 한 결과, springboot가 jar로 된 빌드 파일은 더이상 jsp를 지원하지 않는다고 한다.
 [상세](https://blog.naver.com/myh814/221683685426) <br/>
-> ### 임시 접속
->> AWS 서버 running중인 경우 접속 가능. [사이트 접속](http://ec2-52-79-78-219.ap-northeast-2.compute.amazonaws.com:8080/)
 > ### 실행방법 1
->> 1. [spring-webboard-0.0.1-SNAPSHOT.war](spring-webboard-0.0.1-SNAPSHOT.war)을 다운받는다.
->> 2. 터미널에서 `java -jar spring-webboard-0.0.1-SNAPSHOT.war` 을 실행한다.
+>> 1. spring-webboard.war를 다운받는다.
+>> 2. 터미널에서 `java -jar spring-webboard.war` 을 실행한다.
 >> 3. `http://localhost:8080`으로 접속한다.
 > ### 실행방법 2
 >> 1. [git파일](https://github.com/moonsiri/spring-webboard)을 다운받는다.
@@ -35,6 +33,7 @@
 
 ## [ERD](src/main/resources/schema.sql)
 ![erd](./src/main/webapp/img/erd.png)
+(Change column name of BOARD TABLE form "NAME" to "BOARD_NAME")
 
 #### [USER](src/main/resources/data.sql)
 계정은 다음과 같다.
@@ -163,7 +162,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 ```
 <br/>
 
+
 ## ParameterMap Setting
+#### (Deprecated : Value Object 사용으로 변경함)
 `mybatis`를 사용하면서 `parameterType`과 `resultType`으로 `Map`을 사용하였는데 `key`값이 대문자로 저장이 됐다.<br/>
 전자정부프레임워크(egovFramework)에서는 `EgovMap`가 처리해줬지만 spring엔 제공하는 라이브러리가 없다.<br/>
 `key`값을 대문자에서 소문자로 변경하는 방법은 몇가지가 있지만 전자정부프레임워크 방법을 선택했다. 
@@ -195,6 +196,40 @@ mapper/*.xml
 ```
 <br/>
 
+## Spring Validator
+일단 테스트로 BoardName만 validation 처리함.<br/>
+[BoardValidator.java](src/main/java/com/demo/webboard/board/vo/BoardValidator.java)
+```
+@Component
+public class BoardValidator implements Validator {
+    @Override
+    public boolean supports(Class<?> clazz) {
+        return Board.class.equals(clazz);
+    }
+
+    @Override
+    public void validate(Object target, Errors errors) {
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "boardName", "required.boardName", "게시판명은 필수 입력사항입니다.");
+    }
+}
+```
+Controller.java
+```
+    @Resource
+    private BoardService boardService;
+
+    @PostMapping("/board")
+    @ResponseBody
+    public Map<String, Object> createBoardMap(@RequestBody Board board, BindingResult bindingResult) throws Exception {
+        // ...
+        boardValidator.validate(board, bindingResult);
+        if (bindingResult.hasErrors()) {
+            // validation처리
+        }
+// ...
+```
+<br/>
+
 ## Transaction
 [DefaultTransactionManager.java](src/main/java/com/demo/webboard/util/DefaultTransactionManager.java)
 ```
@@ -210,7 +245,6 @@ public class DefaultTransactionManager extends DefaultTransactionDefinition {
 extends [CmmnAbstractServiceImpl](src/main/java/com/demo/webboard/util/CmmnAbstractServiceImpl.java)
 ```
 @Service
-@Transactional
 public class BoardServiceImpl extends CmmnAbstractServiceImpl {
     // ...
     @Override
@@ -259,10 +293,10 @@ public class Paging {
 ```
 Controller
 ```
-        paramsMap.put("totalCount", totalCount);
-        paramsMap.put("url", url);
-        paramsMap.put("pageNo", pageNo);
-        Paging.makePaging(paramsMap);
+        vo.setTotalCount(totalCount);
+        vo.setUrl(url);
+        vo.setPageNo(pageNo);
+        vo.makePaging();
         // select list
         paramsMap.put("list", list);
 ```
