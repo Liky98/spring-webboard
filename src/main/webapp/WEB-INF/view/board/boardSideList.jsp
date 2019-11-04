@@ -9,7 +9,7 @@
             <li class="nav-item <c:if test='${vo.boardNo eq boardNo}'>active</c:if>">
                 <a class="nav-link" href="/board/${vo.boardNo}">
                     <i class="fas fa-fw fa-list"></i>
-                    <span><c:out value="${vo.name}" /></span></a>
+                    <span><c:out value="${vo.boardName}" /></span></a>
             </li>
         </c:forEach>
     </c:when>

@@ -21,7 +21,7 @@
         <div class="container-fluid">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="/board/${boardNo}"><c:out value="${board.name}" /></a>
+                    <a href="/board/${boardNo}"><c:out value="${board.boardName}" /></a>
                 </li>
                 <li class="breadcrumb-item active">글 상세</li>
             </ol>

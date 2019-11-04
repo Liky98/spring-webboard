@@ -3,13 +3,13 @@
 
     $board.ui = {
         rgstBtn: function() {
-            var name = $('#createName').val();
-            if (!name) {
+            var boardName = $('#createName').val();
+            if (!boardName) {
                 alert("게시판명을 입력하세요.");
                 $('#createName').focus();
                 return false;
             }
-            if (getLength(name) > 255) {
+            if (getLength(boardName) > 255) {
                 alert("게시판명의 허용된 글자수가 초과되었습니다.");
                 $('#createName').focus();
                 return false;
@@ -21,7 +21,7 @@
                 $.ajax({
                     url: url
                     ,type: "POST"
-                    ,data: JSON.stringify({name: name})
+                    ,data: JSON.stringify({boardName: boardName})
                     ,dataType: "json"
                     ,contentType: 'application/json'
                     ,success: function(res) {
@@ -35,7 +35,7 @@
                             var str = '';
                             str += '<tr class="tr">'
                             str += '    <td>' + res + '</td>';
-                            str += '    <td>' + name + '</td>';
+                            str += '    <td>' + boardName + '</td>';
                             str += '    <td>';
                             // str += '        <button class="btn" >수정</button>';
                             str += '        <button class="btn btn-danger" onclick="$board.ui.delBtn(this, '+res+');">삭제</button>';

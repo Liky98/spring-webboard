@@ -42,7 +42,7 @@
                                         <c:forEach items="${list}" var="vo">
                                             <tr class="tr">
                                                 <td>${vo.boardNo}</td>
-                                                <td><c:out value="${vo.name}" /></td>
+                                                <td><c:out value="${vo.boardName}" /></td>
                                                 <td>
                                                     <button class="btn btn-danger" onclick="$board.ui.delBtn(this, ${vo.boardNo});">삭제</button>
                                                 </td>

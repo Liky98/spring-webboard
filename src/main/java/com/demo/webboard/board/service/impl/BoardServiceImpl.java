@@ -33,7 +33,8 @@ public class BoardServiceImpl extends CmmnAbstractServiceImpl implements BoardSe
         try {
             boardMapper.insertBoardMap(board);
 
-            if (null == board.getBoardNo()) {
+            result = String.valueOf(board.getBoardNo());
+            if (null == result) {
                 result = "1";
             }
         } catch (Exception e) {

@@ -20,7 +20,7 @@
 
     <div class="container-fluid">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item active"><c:out value="${board.name}" /></li>
+            <li class="breadcrumb-item active"><c:out value="${board.boardName}" /></li>
         </ol>
         <div class="card mb-3">
             <div class="card-body">

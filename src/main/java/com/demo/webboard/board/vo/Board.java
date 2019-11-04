@@ -7,7 +7,7 @@ import lombok.Data;
 public class Board extends Paging {
 
     private Long boardNo;
-    private String name;
+    private String boardName;
 
     private Long postNo;
     private String userId;
