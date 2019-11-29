@@ -1,9 +1,7 @@
 package com.demo.webboard.admin.web;
 
 import com.demo.webboard.board.service.BoardService;
-import com.demo.webboard.board.vo.Board;
-import com.demo.webboard.board.vo.BoardValidator;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.demo.webboard.board.vo.BoardVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -47,7 +45,7 @@ public class AdminController {
      */
     @GetMapping("/board")
     public ModelAndView adminBoardView(ModelAndView mav, HttpServletRequest request) throws Exception {
-        List<Board> list = boardService.selectBoardList();
+        List<BoardVO> list = boardService.selectBoardList();
 
         mav.addObject("list", list);
         mav.setViewName("admin/boardReadView");
@@ -56,7 +54,7 @@ public class AdminController {
 
     @PostMapping("/board")
     @ResponseBody
-    public Map<String, Object> createBoardMap(@RequestBody @Valid Board board, BindingResult bindingResult) throws Exception {
+    public Map<String, Object> createBoardMap(@RequestBody @Valid BoardVO boardVO, BindingResult bindingResult) throws Exception {
         Map<String, Object> result = new HashMap<>();
 
 //        boardValidator.validate(board, bindingResult);
@@ -70,7 +68,7 @@ public class AdminController {
             result.put("message", message);
         } else {
             result.put("success", true);
-            result.put("boardNo", boardService.insertBoardMap(board));
+            result.put("boardNo", boardService.insertBoardMap(boardVO));
         }
 
         return result;

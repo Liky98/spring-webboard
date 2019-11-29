@@ -1,6 +1,6 @@
 package com.demo.webboard.user.service.impl;
 
-import com.demo.webboard.user.vo.User;
+import com.demo.webboard.user.vo.UserVO;
 import com.demo.webboard.util.CmmnAbstractServiceImpl;
 import com.demo.webboard.user.mapper.UserMapper;
 import com.demo.webboard.user.service.UserService;
@@ -29,37 +29,37 @@ public class UserServiceImpl extends CmmnAbstractServiceImpl implements UserServ
     }
 
     @Override
-    public User selectUserMap(User user) throws Exception {
-        return userMapper.selectUserMap(user);
+    public UserVO selectUserMap(UserVO userVO) throws Exception {
+        return userMapper.selectUserMap(userVO);
     }
 
     @Override
-    public int updateUserInfo(User user) throws Exception {
-        String password = user.getPassword();
+    public int updateUserInfo(UserVO userVO) throws Exception {
+        String password = userVO.getPassword();
         if (null == password) {
             return -1;
         }
 
         // 해당 user가 있는지 check
-        User paramVO = new User();
-        paramVO.setUserId(user.getUserId());
+        UserVO paramVO = new UserVO();
+        paramVO.setUserId(userVO.getUserId());
         paramVO = userMapper.selectUserMap(paramVO);
         if (!passwordEncoder.matches(password, paramVO.getPassword())) {
             return 2;   // 비밀번호 틀림
         }
 
         // 현재 비밀번호랑 변경 비밀번호랑 같은지 check
-        String password2 = user.getPassword2();
+        String password2 = userVO.getPassword2();
         if (password.equals(password2)) {
             return 3;
         }
 
         // 같은 닉네임이 존재하는지 check
-        User sessionVO = getUserData();    // session에 존재하는 data를 불러온다
-        if (!sessionVO.getNickname().equals(user.getNickname())) {
+        UserVO sessionVO = getUserData();    // session에 존재하는 data를 불러온다
+        if (!sessionVO.getNickname().equals(userVO.getNickname())) {
             // 기존 닉네임과 변경 닉네임이 같지않으면 닉네임 중복 체크
-            paramVO = new User();
-            paramVO.setNickname(user.getNickname());
+            paramVO = new UserVO();
+            paramVO.setNickname(userVO.getNickname());
             if (0 < userMapper.selectUserCount(paramVO)) {
                 return 4;   // 이미 존재하는 닉네임
             }
@@ -68,11 +68,11 @@ public class UserServiceImpl extends CmmnAbstractServiceImpl implements UserServ
         // 정보 수정
         int result;
         try {
-            user.setPassword(passwordEncoder.encode(password2));
-            result = userMapper.updateUserInfo(user);   // 정보 수정 성공 (return 1)
+            userVO.setPassword(passwordEncoder.encode(password2));
+            result = userMapper.updateUserInfo(userVO);   // 정보 수정 성공 (return 1)
 
             // session 다시
-            sessionVO.setNickname(user.getNickname());    // 변경된 nickname을 설정한다
+            sessionVO.setNickname(userVO.getNickname());    // 변경된 nickname을 설정한다
             setUserData(sessionVO);              // 변경된 user정보를 session에 설정한다
         } catch (Exception e) {
             result = -1;    // 정보수정 실패
@@ -82,17 +82,17 @@ public class UserServiceImpl extends CmmnAbstractServiceImpl implements UserServ
     }
 
     @Override
-    public Map<String, Object> findPassword(User user) throws Exception {
+    public Map<String, Object> findPassword(UserVO userVO) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
         int result;
 
         try {
-            result = userMapper.selectUserCount(user);    // userId와 userName으로 user 존재 유무 확인
+            result = userMapper.selectUserCount(userVO);    // userId와 userName으로 user 존재 유무 확인
 
             if (result == 1) {  // user 존재
                 String password = getRamdomPassword();  // 임시 비밀번호 생성
-                user.setPassword(passwordEncoder.encode(password));  // 비밀번호 암호화
-                userMapper.updateUserInfo(user);  // 임시 비밀번호로 수정
+                userVO.setPassword(passwordEncoder.encode(password));  // 비밀번호 암호화
+                userMapper.updateUserInfo(userVO);  // 임시 비밀번호로 수정
                 resultMap.put("password", password);
             }
         } catch (Exception e) {

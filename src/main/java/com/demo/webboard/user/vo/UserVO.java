@@ -6,7 +6,7 @@ import lombok.Data;
     lombok을 설정한다. https://blog.naver.com/myh814/221504225671
  */
 @Data
-public class User {
+public class UserVO {
 
     private String userNo;
     private String userId;

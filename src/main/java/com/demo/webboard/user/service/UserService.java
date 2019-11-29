@@ -1,6 +1,6 @@
 package com.demo.webboard.user.service;
 
-import com.demo.webboard.user.vo.User;
+import com.demo.webboard.user.vo.UserVO;
 
 import java.util.List;
 import java.util.Map;
@@ -11,13 +11,13 @@ public interface UserService {
     List<String> selectUserRoleList(String userNo) throws Exception;
 
     // user 조회
-    User selectUserMap(User user) throws Exception;
+    UserVO selectUserMap(UserVO userVO) throws Exception;
 
     // 개인정보 수정
-    int updateUserInfo(User user) throws Exception;
+    int updateUserInfo(UserVO userVO) throws Exception;
 
     // 비밀번호 찾기
-    Map<String, Object> findPassword(User user) throws Exception;
+    Map<String, Object> findPassword(UserVO userVO) throws Exception;
 
 
 }

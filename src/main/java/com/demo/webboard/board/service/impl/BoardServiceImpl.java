@@ -2,7 +2,7 @@ package com.demo.webboard.board.service.impl;
 
 import com.demo.webboard.board.mapper.BoardMapper;
 import com.demo.webboard.board.service.BoardService;
-import com.demo.webboard.board.vo.Board;
+import com.demo.webboard.board.vo.BoardVO;
 import com.demo.webboard.util.CmmnAbstractServiceImpl;
 import com.demo.webboard.util.DefaultTransactionManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,22 +18,22 @@ public class BoardServiceImpl extends CmmnAbstractServiceImpl implements BoardSe
     private BoardMapper boardMapper;
 
     @Override
-    public List<Board> selectBoardList() throws Exception {
+    public List<BoardVO> selectBoardList() throws Exception {
         return boardMapper.selectBoardList();
     }
 
     @Override
-    public Board selectBoardMap(long boardNo) throws Exception {
+    public BoardVO selectBoardMap(long boardNo) throws Exception {
         return boardMapper.selectBoardMap(boardNo);
     }
 
     @Override
-    public String insertBoardMap(Board board) throws Exception {
+    public String insertBoardMap(BoardVO boardVO) throws Exception {
         String result;
         try {
-            boardMapper.insertBoardMap(board);
+            boardMapper.insertBoardMap(boardVO);
 
-            result = String.valueOf(board.getBoardNo());
+            result = String.valueOf(boardVO.getBoardNo());
             if (null == result) {
                 result = "1";
             }
@@ -51,10 +51,10 @@ public class BoardServiceImpl extends CmmnAbstractServiceImpl implements BoardSe
 
         int result;
         try {
-            Board board = new Board();
-            board.setBoardNo(boardNo);
-            boardMapper.deletePostMap(board);
-            result = boardMapper.deleteBoardMap(board);
+            BoardVO boardVO = new BoardVO();
+            boardVO.setBoardNo(boardNo);
+            boardMapper.deletePostMap(boardVO);
+            result = boardMapper.deleteBoardMap(boardVO);
         } catch (Exception e) {
             result = -1;
             tx.rollback();
@@ -68,21 +68,21 @@ public class BoardServiceImpl extends CmmnAbstractServiceImpl implements BoardSe
 
 
     @Override
-    public int selectPostListCount(Board board) throws Exception {
-        return boardMapper.selectPostListCount(board);
+    public int selectPostListCount(BoardVO boardVO) throws Exception {
+        return boardMapper.selectPostListCount(boardVO);
     }
     @Override
-    public List<Board> selectPostList(Board board) throws Exception {
-        return boardMapper.selectPostList(board);
+    public List<BoardVO> selectPostList(BoardVO boardVO) throws Exception {
+        return boardMapper.selectPostList(boardVO);
     }
 
     @Override
-    public int insertPostMap(Board board) throws Exception {
+    public int insertPostMap(BoardVO boardVO) throws Exception {
         int result = 0;
         try {
-            board.setUserId(getUserId());
-            board.setNickname(getNickname());
-            boardMapper.insertPostMap(board);
+            boardVO.setUserId(getUserId());
+            boardVO.setNickname(getNickname());
+            boardMapper.insertPostMap(boardVO);
             result = 1;
         } catch (Exception e) {
             result = -1;
@@ -92,17 +92,17 @@ public class BoardServiceImpl extends CmmnAbstractServiceImpl implements BoardSe
     }
 
     @Override
-    public Board selectPostMap(Board board) throws Exception {
-        return boardMapper.selectPostMap(board);
+    public BoardVO selectPostMap(BoardVO boardVO) throws Exception {
+        return boardMapper.selectPostMap(boardVO);
     }
 
     @Override
-    public int updatePostMap(Board board) throws Exception {
-        return boardMapper.updatePostMap(board);
+    public int updatePostMap(BoardVO boardVO) throws Exception {
+        return boardMapper.updatePostMap(boardVO);
     }
 
     @Override
-    public int deletePostMap(Board board) throws Exception {
-        return boardMapper.deletePostMap(board);
+    public int deletePostMap(BoardVO boardVO) throws Exception {
+        return boardMapper.deletePostMap(boardVO);
     }
 }

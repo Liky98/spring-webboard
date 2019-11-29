@@ -23,7 +23,7 @@
         <div class="container-fluid">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="/board/${boardNo}"><c:out value="${board.boardName}" /></a>
+                    <a href="/board/${boardNo}"><c:out value="${boardVO.boardName}" /></a>
                 </li>
                 <li class="breadcrumb-item">
                     <a href="/board/${boardNo}/${postNo}">글 상세</a>
@@ -36,14 +36,14 @@
                         <table class="table">
                             <tr>
                                 <th>제목</th>
-                                <td><input type="text" name="title" class="form-control" value="<c:out value="${post.title}" />" /></td>
+                                <td><input type="text" name="title" class="form-control" value="<c:out value="${postVO.title}" />" /></td>
                             </tr>
                             <tr>
                                 <th>내용</th>
-                                <td><textarea name="content" class="form-control" ><c:out value="${post.content}" /></textarea></td>
+                                <td><textarea name="content" class="form-control" ><c:out value="${postVO.content}" /></textarea></td>
                             </tr>
                         </table>
-                        <c:if test="${sessionScope.userId eq post.userId}" >
+                        <c:if test="${sessionScope.userId eq postVO.userId}" >
                             <input type="button" class="btn btn-primary" id="uptBtn" value="수정" />
                             <input type="reset" class="btn btn-secondary" value="초기화" />
                             <input type="button" class="btn btn-secondary" id="clsBtn" value="취소" />

@@ -1,7 +1,7 @@
 package com.demo.webboard.config.security;
 
 import com.demo.webboard.user.service.UserService;
-import com.demo.webboard.user.vo.User;
+import com.demo.webboard.user.vo.UserVO;
 import com.demo.webboard.util.CmmnAbstractServiceImpl;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
@@ -37,12 +37,12 @@ public class WebAuthenticationSuccessHandler extends CmmnAbstractServiceImpl imp
             String userNo = loginUserDetails.getUserNo();
 
             // userNo으로 user 정보 가져오기
-            User user = new User();
-            user.setUserNo(userNo);
-            user = userService.selectUserMap(user);
+            UserVO userVO = new UserVO();
+            userVO.setUserNo(userNo);
+            userVO = userService.selectUserMap(userVO);
 
             // session
-            setUserData(user);
+            setUserData(userVO);
             /*HttpSession session = request.getSession();
             session.setAttribute("user", user);
             session.setAttribute("userId", userVO.getUserId());

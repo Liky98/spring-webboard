@@ -7,7 +7,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.NotEmpty;
 
 @Data
-public class Board extends Paging {
+public class BoardVO extends Paging {
 
     private Long boardNo;
 

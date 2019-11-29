@@ -3,19 +3,19 @@
 
 <mapper namespace="com.demo.webboard.board.mapper.BoardMapper">
 
-    <select id="selectBoardList" resultType="Board">
+    <select id="selectBoardList" resultType="BoardVO">
         SELECT BOARD_NO
              , BOARD_NAME
           FROM BOARD
          ORDER BY BOARD_NO ASC
     </select>
-    <select id="selectBoardMap" resultType="Board">
+    <select id="selectBoardMap" resultType="BoardVO">
         SELECT BOARD_NO
              , BOARD_NAME
           FROM BOARD
          WHERE BOARD_NO = #{boardNo}
     </select>
-    <insert id="insertBoardMap" parameterType="Board" useGeneratedKeys="false">
+    <insert id="insertBoardMap" parameterType="BoardVO" useGeneratedKeys="false">
         <selectKey keyProperty="boardNo" resultType="long" order="AFTER">
             SELECT MAX(BOARD_NO) FROM BOARD;
         </selectKey>
@@ -25,19 +25,19 @@
             #{boardName}
         )
     </insert>
-    <delete id="deleteBoardMap" parameterType="Board">
+    <delete id="deleteBoardMap" parameterType="BoardVO">
         DELETE FROM BOARD
         WHERE BOARD_NO = #{boardNo}
     </delete>
 
 
 
-    <select id="selectPostListCount" parameterType="Board" resultType="int">
+    <select id="selectPostListCount" parameterType="BoardVO" resultType="int">
         SELECT COUNT(*) CNT
           FROM POST
          WHERE BOARD_NO = #{boardNo}
     </select>
-    <select id="selectPostList" parameterType="Board" resultType="Board">
+    <select id="selectPostList" parameterType="BoardVO" resultType="BoardVO">
         SELECT BOARD_NO
              , POST_NO
              , USER_ID
@@ -57,7 +57,7 @@
         )
         <![CDATA[ WHERE rnum > (#{pageNo} * #{pageSize}) - #{pageSize} AND rnum  <= (#{pageNo} * #{pageSize}) ]]>
     </select>
-    <insert id="insertPostMap" parameterType="Board">
+    <insert id="insertPostMap" parameterType="BoardVO">
         INSERT INTO POST (
               BOARD_NO
             , USER_ID
@@ -76,7 +76,7 @@
             , NOW()
         )
     </insert>
-    <select id="selectPostMap" parameterType="Board" resultType="Board">
+    <select id="selectPostMap" parameterType="BoardVO" resultType="BoardVO">
         SELECT BOARD_NO
              , USER_ID
              , NICKNAME
@@ -88,7 +88,7 @@
          WHERE BOARD_NO = #{boardNo}
            AND POST_NO = #{postNo}
     </select>
-    <update id="updatePostMap" parameterType="Board">
+    <update id="updatePostMap" parameterType="BoardVO">
         UPDATE POST
            SET TITLE = #{title}
              , CONTENT = #{content}
@@ -96,7 +96,7 @@
          WHERE BOARD_NO = #{boardNo}
            AND POST_NO = #{postNo}
     </update>
-    <delete id="deletePostMap" parameterType="Board">
+    <delete id="deletePostMap" parameterType="BoardVO">
         DELETE FROM POST
          WHERE BOARD_NO = #{boardNo}
         <if test='postNo != null and postNo != ""'>

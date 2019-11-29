@@ -1,7 +1,7 @@
 package com.demo.webboard.user.web;
 
 import com.demo.webboard.user.service.UserService;
-import com.demo.webboard.user.vo.User;
+import com.demo.webboard.user.vo.UserVO;
 import com.demo.webboard.util.CmmnAbstractServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -44,7 +44,7 @@ public class UserController extends CmmnAbstractServiceImpl {
 
     /**
      * 패스워드 찾기
-     * @param user
+     * @param userVO
      * @return Map key값 :
      *      result : 1 - 성공, else - 실패
      *      password : 비밀번호
@@ -52,9 +52,9 @@ public class UserController extends CmmnAbstractServiceImpl {
      */
     @PostMapping("/pw")
     @ResponseBody
-    public Map<String, Object> findPassword(@RequestBody User user) throws Exception {
+    public Map<String, Object> findPassword(@RequestBody UserVO userVO) throws Exception {
 
-        return userService.findPassword(user);
+        return userService.findPassword(userVO);
     }
 
     /**
@@ -65,28 +65,28 @@ public class UserController extends CmmnAbstractServiceImpl {
      */
     @GetMapping("/user")
     public ModelAndView userView(ModelAndView mav) throws Exception {
-        User user = new User();
-        user.setUserId(getUserId());
-        user = userService.selectUserMap(user);
+        UserVO userVO = new UserVO();
+        userVO.setUserId(getUserId());
+        userVO = userService.selectUserMap(userVO);
 
-        mav.addObject("user", user);
+        mav.addObject("userVO", userVO);
         mav.setViewName("main/userView");
         return mav;
     }
 
     /**
      * 개인정보 수정
-     * @param user
+     * @param userVO
      * @return
      * @throws Exception
      */
     @PostMapping("/user")
     @ResponseBody
-    public int updateUser(@RequestBody User user) throws Exception {
-        user.setUserId(getUserId());
+    public int updateUser(@RequestBody UserVO userVO) throws Exception {
+        userVO.setUserId(getUserId());
 
         // 패스워드 체크 후 정보수정
-        return userService.updateUserInfo(user);
+        return userService.updateUserInfo(userVO);
     }
 
 

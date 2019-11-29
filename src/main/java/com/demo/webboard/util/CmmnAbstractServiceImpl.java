@@ -1,7 +1,6 @@
 package com.demo.webboard.util;
 
-import com.demo.webboard.board.vo.Board;
-import com.demo.webboard.user.vo.User;
+import com.demo.webboard.user.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
@@ -39,17 +38,17 @@ public class CmmnAbstractServiceImpl {
      */
     @Deprecated
     protected Map getLoginSessionMap(Map<String, Object> paramsMap) throws Exception {
-        User user = getUserData();
-        if (null == user) {
+        UserVO userVO = getUserData();
+        if (null == userVO) {
             return null;
         }
 
-        Field[] fields = user.getClass().getDeclaredFields();
+        Field[] fields = userVO.getClass().getDeclaredFields();
 
         try {
             for (int i = 0; i <= fields.length - 1; i++) {
                 fields[i].setAccessible(true);
-                paramsMap.put(fields[i].getName(), fields[i].get(user));
+                paramsMap.put(fields[i].getName(), fields[i].get(userVO));
             }
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
@@ -70,12 +69,12 @@ public class CmmnAbstractServiceImpl {
      * session에 존재하는 login vo객제
      * @return
      */
-    protected User getUserData() {
+    protected UserVO getUserData() {
         HttpSession session = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getSession();
-        User user = (User) session.getAttribute("user");
+        UserVO userVO = (UserVO) session.getAttribute("user");
 
-        if (null != user && null != user.getUserId()) {
-            return user;
+        if (null != userVO && null != userVO.getUserId()) {
+            return userVO;
         } else {
             return null;
         }
@@ -119,13 +118,13 @@ public class CmmnAbstractServiceImpl {
 
     /**
      * session 정보 등록
-     * @param user
+     * @param userVO
      */
-    protected void setUserData(User user) {
+    protected void setUserData(UserVO userVO) {
         HttpSession session = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getSession();
-        session.setAttribute("user", user);
-        session.setAttribute("userId", user.getUserId());
-        session.setAttribute("userName", user.getUserName());
-        session.setAttribute("nickname", user.getNickname());
+        session.setAttribute("user", userVO);
+        session.setAttribute("userId", userVO.getUserId());
+        session.setAttribute("userName", userVO.getUserName());
+        session.setAttribute("nickname", userVO.getNickname());
     }
 }

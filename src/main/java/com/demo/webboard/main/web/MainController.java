@@ -1,7 +1,7 @@
 package com.demo.webboard.main.web;
 
 import com.demo.webboard.board.service.BoardService;
-import com.demo.webboard.board.vo.Board;
+import com.demo.webboard.board.vo.BoardVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -34,7 +34,7 @@ public class MainController {
      */
     @GetMapping("/board/boardSideList")
     public ModelAndView boardSideList(ModelAndView mav, String boardNo) throws Exception {
-        List<Board> list = boardService.selectBoardList();
+        List<BoardVO> list = boardService.selectBoardList();
 
         mav.addObject("list", list);
         mav.addObject("boardNo", boardNo);

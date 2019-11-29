@@ -1,8 +1,7 @@
 package com.demo.webboard.board.web;
 
 import com.demo.webboard.board.service.BoardService;
-import com.demo.webboard.board.vo.Board;
-import com.demo.webboard.util.Paging;
+import com.demo.webboard.board.vo.BoardVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -25,7 +24,7 @@ public class BoardController {
      */
     @GetMapping("/{boardNo}")
     public ModelAndView boardView(@PathVariable("boardNo") long boardNo, Integer pageNo, ModelAndView mav) throws Exception {
-        mav.addObject("board", boardService.selectBoardMap(boardNo));
+        mav.addObject("boardVO", boardService.selectBoardMap(boardNo));
         mav.addObject("pageNo", pageNo);
         mav.setViewName("board/boardView");
         return mav;
@@ -40,19 +39,19 @@ public class BoardController {
      */
     @GetMapping("/list/{boardNo}")
     public ModelAndView postList(@PathVariable("boardNo") long boardNo, Integer pageNo, ModelAndView mav) throws Exception {
-        Board board = new Board();
-        board.setBoardNo(boardNo);
+        BoardVO boardVO = new BoardVO();
+        boardVO.setBoardNo(boardNo);
 
         // 페이징 처리
-        board.setTotalCount(boardService.selectPostListCount(board));
-        board.setUrl("/board/"+boardNo);
-        board.setPageNo(pageNo);
-        board.makePaging();
+        boardVO.setTotalCount(boardService.selectPostListCount(boardVO));
+        boardVO.setUrl("/board/"+boardNo);
+        boardVO.setPageNo(pageNo);
+        boardVO.makePaging();
 
-        List<Board> list = boardService.selectPostList(board);
+        List<BoardVO> list = boardService.selectPostList(boardVO);
 
         mav.addObject("list", list);
-        mav.addObject("paginate", board);
+        mav.addObject("paginate", boardVO);
         mav.setViewName("board/postList");
         return mav;
     }
@@ -66,7 +65,7 @@ public class BoardController {
      */
     @GetMapping("/{boardNo}/post")
     public ModelAndView createPostView(@PathVariable("boardNo") long boardNo, ModelAndView mav) throws Exception {
-        mav.addObject("board", boardService.selectBoardMap(boardNo));
+        mav.addObject("boardVO", boardService.selectBoardMap(boardNo));
         mav.setViewName("board/postCreateView");
         return mav;
     }
@@ -74,15 +73,15 @@ public class BoardController {
     /**
      * 게시물 등록
      * @param boardNo
-     * @param board
+     * @param boardVO
      * @return
      * @throws Exception
      */
     @PostMapping("/{boardNo}/post")
     @ResponseBody
-    public int createPost(@PathVariable("boardNo") long boardNo, @RequestBody Board board) throws Exception {
+    public int createPost(@PathVariable("boardNo") long boardNo, @RequestBody BoardVO boardVO) throws Exception {
 
-        return boardService.insertPostMap(board);
+        return boardService.insertPostMap(boardVO);
     }
 
     /**
@@ -95,12 +94,12 @@ public class BoardController {
      */
     @GetMapping("/{boardNo}/{postNo}")
     public ModelAndView readPostMap(@PathVariable("boardNo") long boardNo, @PathVariable("postNo") long postNo, ModelAndView mav) throws Exception {
-        Board board = new Board();
-        board.setBoardNo(boardNo);
-        board.setPostNo(postNo);
+        BoardVO boardVO = new BoardVO();
+        boardVO.setBoardNo(boardNo);
+        boardVO.setPostNo(postNo);
 
-        mav.addObject("board", boardService.selectBoardMap(boardNo));
-        mav.addObject("post", boardService.selectPostMap(board));
+        mav.addObject("boardVO", boardService.selectBoardMap(boardNo));
+        mav.addObject("postVO", boardService.selectPostMap(boardVO));
         mav.setViewName("board/postReadView");
         return mav;
     }
@@ -114,12 +113,12 @@ public class BoardController {
      */
     @GetMapping("/{boardNo}/post/{postNo}")
     public ModelAndView updatePostView(@PathVariable("boardNo") long boardNo, @PathVariable("postNo") long postNo, ModelAndView mav) throws Exception {
-        Board board = new Board();
-        board.setBoardNo(boardNo);
-        board.setPostNo(postNo);
+        BoardVO boardVO = new BoardVO();
+        boardVO.setBoardNo(boardNo);
+        boardVO.setPostNo(postNo);
 
-        mav.addObject("board", boardService.selectBoardMap(boardNo));
-        mav.addObject("post", boardService.selectPostMap(board));
+        mav.addObject("boardVO", boardService.selectBoardMap(boardNo));
+        mav.addObject("postVO", boardService.selectPostMap(boardVO));
         mav.setViewName("board/postUpdateView");
         return mav;
     }
@@ -128,14 +127,14 @@ public class BoardController {
      * 게시물 수정
      * @param boardNo
      * @param postNo
-     * @param board
+     * @param boardVO
      * @return
      * @throws Exception
      */
     @PutMapping("/{boardNo}/post/{postNo}")
     @ResponseBody
-    public int updatePostMap(@PathVariable("boardNo") long boardNo, @PathVariable("postNo") long postNo, @RequestBody Board board) throws Exception {
-        return boardService.updatePostMap(board);
+    public int updatePostMap(@PathVariable("boardNo") long boardNo, @PathVariable("postNo") long postNo, @RequestBody BoardVO boardVO) throws Exception {
+        return boardService.updatePostMap(boardVO);
     }
 
     /**
@@ -148,10 +147,10 @@ public class BoardController {
     @DeleteMapping("/{boardNo}/post/{postNo}")
     @ResponseBody
     public int deletePostMap(@PathVariable("boardNo") long boardNo, @PathVariable("postNo") long postNo) throws Exception {
-        Board board = new Board();
-        board.setBoardNo(boardNo);
-        board.setPostNo(postNo);
+        BoardVO boardVO = new BoardVO();
+        boardVO.setBoardNo(boardNo);
+        boardVO.setPostNo(postNo);
 
-        return boardService.deletePostMap(board);
+        return boardService.deletePostMap(boardVO);
     }
 }

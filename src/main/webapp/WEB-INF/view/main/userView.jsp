@@ -18,15 +18,15 @@
         <h2 class="form-u-heading">개인정보</h2>
         <p>
             <label>이름</label>
-            <input type="text" class="form-control" value="${user.userName}" readonly disabled>
+            <input type="text" class="form-control" value="${userVO.userName}" readonly disabled>
         </p>
         <p>
             <label>아이디</label>
-            <input type="text" class="form-control" value="${user.userId}" readonly disabled>
+            <input type="text" class="form-control" value="${userVO.userId}" readonly disabled>
         </p>
         <p>
             <label>닉네임 <mark>*</mark></label>
-            <input type="text" name="nickname" class="form-control" value="${user.nickname}" required="">
+            <input type="text" name="nickname" class="form-control" value="${userVO.nickname}" required="">
         </p>
         <p>
             <label>현재 비밀번호 <mark>*</mark></label>
