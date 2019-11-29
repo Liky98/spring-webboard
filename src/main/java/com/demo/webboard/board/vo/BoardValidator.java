@@ -6,6 +6,7 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 @Component
+@Deprecated
 public class BoardValidator implements Validator {
     @Override
     public boolean supports(Class<?> clazz) {

@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.*;
 
 @Controller
@@ -20,8 +21,8 @@ public class AdminController {
     @Resource
     private BoardService boardService;
 
-    @Autowired
-    BoardValidator boardValidator;
+//    @Autowired
+//    BoardValidator boardValidator;
 
     /**
      * 관리자 메인페이지
@@ -55,18 +56,20 @@ public class AdminController {
 
     @PostMapping("/board")
     @ResponseBody
-    public Map<String, Object> createBoardMap(@RequestBody Board board, BindingResult bindingResult) throws Exception {
+    public Map<String, Object> createBoardMap(@RequestBody @Valid Board board, BindingResult bindingResult) throws Exception {
         Map<String, Object> result = new HashMap<>();
 
-        boardValidator.validate(board, bindingResult);
+//        boardValidator.validate(board, bindingResult);
         if (bindingResult.hasErrors()) {
             List<String> message = new ArrayList<>();
             bindingResult.getAllErrors().forEach(e -> {
 //                e.getCode();
                 message.add(e.getDefaultMessage());
             });
+            result.put("success", false);
             result.put("message", message);
         } else {
+            result.put("success", true);
             result.put("boardNo", boardService.insertBoardMap(board));
         }
 

@@ -4,8 +4,7 @@
     $board.ui = {
         rgstBtn: function() {
             var boardName = $('#createName').val();
-            /*
-            // spring validator로 대체
+
             if (!boardName) {
                 alert("게시판명을 입력하세요.");
                 $('#createName').focus();
@@ -15,7 +14,7 @@
                 alert("게시판명의 허용된 글자수가 초과되었습니다.");
                 $('#createName').focus();
                 return false;
-            }*/
+            }
 
             if (confirm("게시판을 생성하시겠습니까?")) {
                 var url = "/admin/board/";
@@ -27,7 +26,7 @@
                     ,dataType: "json"
                     ,contentType: 'application/json'
                     ,success: function(res) {
-                        if (res.boardNo) {
+                        if (res.success) {
                             $('#createName').val(null);
 
                             if ($('.tr-non').length == 1) {
@@ -44,11 +43,9 @@
                             str += '    </td>';
                             str += '</tr>';
                             $('.list-board').append(str);
-                        } else if (res.message) {
+                        } else {
                             alert(res.message[0]);
                             return false;
-                        } else {
-                            alert("게시판 생성 실패");
                         }
                     }
                     ,error: function(res, a) {

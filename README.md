@@ -201,32 +201,23 @@ mapper/*.xml
 
 ## Spring Validator
 일단 테스트로 BoardName만 validation 처리함.<br/>
-[BoardValidator.java](src/main/java/com/demo/webboard/board/vo/BoardValidator.java)
+Board.java
 ```
-@Component
-public class BoardValidator implements Validator {
-    @Override
-    public boolean supports(Class<?> clazz) {
-        return Board.class.equals(clazz);
-    }
+@Data
+public class Board extends Paging {
 
-    @Override
-    public void validate(Object target, Errors errors) {
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "boardName", "required.boardName", "게시판명은 필수 입력사항입니다.");
-    }
-}
+    private Long boardNo;
+
+    @NotEmpty
+    @Length(max=255)
+    private String boardName;
 ```
 Controller.java
 ```
-    @Resource
-    private BoardService boardService;
-
     @PostMapping("/board")
     @ResponseBody
     public Map<String, Object> createBoardMap(@RequestBody Board board, BindingResult bindingResult) throws Exception {
-        // ...
-        boardValidator.validate(board, bindingResult);
-        if (bindingResult.hasErrors()) {
+         if (bindingResult.hasErrors()) {
             // validation처리
         }
 // ...

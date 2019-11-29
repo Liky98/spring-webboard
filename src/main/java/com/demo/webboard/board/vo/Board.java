@@ -2,20 +2,20 @@ package com.demo.webboard.board.vo;
 
 import com.demo.webboard.util.Paging;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
 
 @Data
 public class Board extends Paging {
 
-    @NotEmpty
     private Long boardNo;
 
     @NotEmpty
+    @Length(max=255)
     private String boardName;
 
 
-    @NotEmpty
     private Long postNo;
 
     private String userId;

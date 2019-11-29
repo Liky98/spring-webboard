@@ -27,3 +27,7 @@ mybatis:
     map-underscore-to-camel-case: true
 #    lazy-loading-enabled: true
 #    aggressive-lazy-loading: false
+
+
+server:
+  port: 9898
