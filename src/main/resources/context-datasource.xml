@@ -8,6 +8,7 @@
                       http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
 
     <!-- H2 DB -->
+    <!-- resources/*.sql 실행은 안되지만 h2-console 접속은 됨 -->
 <!--    <bean id="dataSource-h2" class="org.apache.commons.dbcp2.BasicDataSource" >&lt;!&ndash;destroy-method="postDeregister"&ndash;&gt;
         <property name="driverClassName" value="org.h2.Driver"/>
         <property name="url" value="jdbc:h2:mem:testdb"/>
