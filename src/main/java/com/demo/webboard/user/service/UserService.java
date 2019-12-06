@@ -17,7 +17,7 @@ public interface UserService {
     int updateUserInfo(UserVO userVO) throws Exception;
 
     // 비밀번호 찾기
-    Map<String, Object> findPassword(UserVO userVO) throws Exception;
+    Map<String, Object> updatePassword(UserVO userVO) throws Exception;
 
 
 }

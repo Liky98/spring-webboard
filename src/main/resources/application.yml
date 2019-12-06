@@ -4,10 +4,13 @@ spring:
       prefix: /WEB-INF/view/
       suffix: .jsp
   datasource:
-    url: jdbc:h2:mem:testdb
-    driver-class-name: org.h2.Driver
-    username: sa
+    hikari:
+      jdbc-url: jdbc:h2:mem:testdb
+      driver-class-name: org.h2.Driver
+      username: sa
     sql-script-encoding: UTF-8  # data.sql 한글깨짐 해결
+    dbcp2:
+      validation-query: SELECT 1
   h2:
     console:
       enabled: true
@@ -19,15 +22,14 @@ spring:
       enabled: true
       force: true
 
-mybatis:
-  mapper-locations: classpath*:mapper/*.xml
-#  type-aliases-package: com.demo.webboard.util   # Map 사용시
-  type-aliases-package: com.demo.webboard.board.vo, com.demo.webboard.user.vo   # vo 사용시
-  configuration:
-    map-underscore-to-camel-case: true
-#    lazy-loading-enabled: true
-#    aggressive-lazy-loading: false
+#mybatis:
+#  mapper-locations: classpath*:mapper/*.xml
+##  type-aliases-package: com.demo.webboard.util   # Map 사용시
+#  type-aliases-package: com.demo.webboard.board.vo, com.demo.webboard.user.vo   # vo 사용시
+#  configuration:
+#    map-underscore-to-camel-case: true
+##    lazy-loading-enabled: true
+##    aggressive-lazy-loading: false
 
-
-server:
-  port: 9898
+#server:
+#  port: 9898

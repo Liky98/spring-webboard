@@ -1,21 +1,19 @@
 package com.demo.webboard.board.service.impl;
 
-import com.demo.webboard.board.mapper.BoardMapper;
+import com.demo.webboard.board.mapper.BoardDAO;
 import com.demo.webboard.board.service.BoardService;
 import com.demo.webboard.board.vo.BoardVO;
 import com.demo.webboard.util.CmmnAbstractServiceImpl;
-import com.demo.webboard.util.DefaultTransactionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-//@Transactional
 public class BoardServiceImpl extends CmmnAbstractServiceImpl implements BoardService {
 
     @Autowired
-    private BoardMapper boardMapper;
+    private BoardDAO boardMapper;
 
     @Override
     public List<BoardVO> selectBoardList() throws Exception {
@@ -28,7 +26,7 @@ public class BoardServiceImpl extends CmmnAbstractServiceImpl implements BoardSe
     }
 
     @Override
-    public String insertBoardMap(BoardVO boardVO) throws Exception {
+    public String insertBoardMap(BoardVO boardVO) {
         String result;
         try {
             boardMapper.insertBoardMap(boardVO);
@@ -46,8 +44,8 @@ public class BoardServiceImpl extends CmmnAbstractServiceImpl implements BoardSe
 
     @Override
     public int deleteBoardMap(long boardNo) {
-        DefaultTransactionManager tx = getTransactionManager(); // 트랜잭션 처리
-        tx.start();
+//        DefaultTransactionManager tx = getTransactionManager(); // 트랜잭션 처리
+//        tx.start();
 
         int result;
         try {
@@ -57,10 +55,10 @@ public class BoardServiceImpl extends CmmnAbstractServiceImpl implements BoardSe
             result = boardMapper.deleteBoardMap(boardVO);
         } catch (Exception e) {
             result = -1;
-            tx.rollback();
+//            tx.rollback();
         }
-        tx.commit();
-        tx.end();
+//        tx.commit();
+//        tx.end();
         return result;
     }
 
@@ -77,7 +75,7 @@ public class BoardServiceImpl extends CmmnAbstractServiceImpl implements BoardSe
     }
 
     @Override
-    public int insertPostMap(BoardVO boardVO) throws Exception {
+    public int insertPostMap(BoardVO boardVO) {
         int result = 0;
         try {
             boardVO.setUserId(getUserId());

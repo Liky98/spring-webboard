@@ -10,7 +10,10 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/admin")
@@ -65,10 +68,16 @@ public class AdminController {
                 message.add(e.getDefaultMessage());
             });
             result.put("success", false);
-            result.put("message", message);
+            result.put("message", message.get(0));
         } else {
-            result.put("success", true);
-            result.put("boardNo", boardService.insertBoardMap(boardVO));
+            String boardNo = boardService.insertBoardMap(boardVO);
+            if (null != boardNo) {
+                result.put("success", true);
+                result.put("boardNo", boardNo);
+            } else {
+                result.put("success", false);
+                result.put("message", "등록 실패");
+            }
         }
 
         return result;

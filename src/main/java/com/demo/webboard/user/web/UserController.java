@@ -53,8 +53,7 @@ public class UserController extends CmmnAbstractServiceImpl {
     @PostMapping("/pw")
     @ResponseBody
     public Map<String, Object> findPassword(@RequestBody UserVO userVO) throws Exception {
-
-        return userService.findPassword(userVO);
+        return userService.updatePassword(userVO);
     }
 
     /**

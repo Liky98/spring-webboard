@@ -3,17 +3,39 @@
 
 <mapper namespace="com.demo.webboard.board.mapper.BoardMapper">
 
-    <select id="selectBoardList" resultType="BoardVO">
-        SELECT BOARD_NO
-             , BOARD_NAME
+    <sql id="select-from-board">
+        SELECT BOARD_NO     AS boardNo
+             , BOARD_NAME   AS boardName
           FROM BOARD
+    </sql>
+    <sql id="where-board">
+         WHERE BOARD_NO = #{boardNo}
+    </sql>
+
+    <sql id="select-from-post">
+        SELECT BOARD_NO AS boardNo
+             , POST_NO  AS postNo
+             , USER_ID  AS userId
+             , NICKNAME AS nickname
+             , TITLE    AS title
+             , CONTENT  AS content
+             , FORMATDATETIME(CREATE_DT, 'yyyy-MM-dd HH:mm:ss') AS createDt
+             , FORMATDATETIME(UPDATE_DT, 'yyyy-MM-dd HH:mm:ss') AS updateDt
+          FROM POST
+    </sql>
+    <sql id="where-post">
+         WHERE BOARD_NO = #{boardNo}
+           AND POST_NO = #{postNo}
+    </sql>
+
+
+    <select id="selectBoardList" resultType="BoardVO">
+        <include refid="select-from-board" />
          ORDER BY BOARD_NO ASC
     </select>
     <select id="selectBoardMap" resultType="BoardVO">
-        SELECT BOARD_NO
-             , BOARD_NAME
-          FROM BOARD
-         WHERE BOARD_NO = #{boardNo}
+        <include refid="select-from-board" />
+        <include refid="where-board" />
     </select>
     <insert id="insertBoardMap" parameterType="BoardVO" useGeneratedKeys="false">
         <selectKey keyProperty="boardNo" resultType="long" order="AFTER">
@@ -27,7 +49,7 @@
     </insert>
     <delete id="deleteBoardMap" parameterType="BoardVO">
         DELETE FROM BOARD
-        WHERE BOARD_NO = #{boardNo}
+        <include refid="where-board" />
     </delete>
 
 
@@ -35,23 +57,16 @@
     <select id="selectPostListCount" parameterType="BoardVO" resultType="int">
         SELECT COUNT(*) CNT
           FROM POST
-         WHERE BOARD_NO = #{boardNo}
+        <include refid="where-board" />
     </select>
     <select id="selectPostList" parameterType="BoardVO" resultType="BoardVO">
-        SELECT BOARD_NO
-             , POST_NO
-             , USER_ID
-             , NICKNAME
-             , TITLE
-             , FORMATDATETIME(CREATE_DT, 'yyyy-MM-dd HH:mm:ss') AS CREATE_DT
-             , FORMATDATETIME(UPDATE_DT, 'yyyy-MM-dd HH:mm:ss') AS UPDATE_DT
+        SELECT *
           FROM (
             SELECT ROWNUM() AS rnum
                  , *
              FROM (
-                SELECT *
-                  FROM POST
-                 WHERE BOARD_NO = #{boardNo}
+                <include refid="select-from-post" />
+                <include refid="where-board" />
                  ORDER BY POST_NO DESC
             )
         )
@@ -77,28 +92,19 @@
         )
     </insert>
     <select id="selectPostMap" parameterType="BoardVO" resultType="BoardVO">
-        SELECT BOARD_NO
-             , USER_ID
-             , NICKNAME
-             , TITLE
-             , CONTENT
-             , FORMATDATETIME(CREATE_DT, 'yyyy-MM-dd HH:mm:ss') AS CREATE_DT
-             , FORMATDATETIME(UPDATE_DT, 'yyyy-MM-dd HH:mm:ss') AS UPDATE_DT
-          FROM POST
-         WHERE BOARD_NO = #{boardNo}
-           AND POST_NO = #{postNo}
+        <include refid="select-from-post" />
+        <include refid="where-post" />
     </select>
     <update id="updatePostMap" parameterType="BoardVO">
         UPDATE POST
            SET TITLE = #{title}
              , CONTENT = #{content}
              , UPDATE_DT = NOW()
-         WHERE BOARD_NO = #{boardNo}
-           AND POST_NO = #{postNo}
+        <include refid="where-post" />
     </update>
     <delete id="deletePostMap" parameterType="BoardVO">
         DELETE FROM POST
-         WHERE BOARD_NO = #{boardNo}
+        <include refid="where-board" />
         <if test='postNo != null and postNo != ""'>
            AND POST_NO = #{postNo}
         </if>

@@ -44,7 +44,7 @@
                             str += '</tr>';
                             $('.list-board').append(str);
                         } else {
-                            alert(res.message[0]);
+                            alert(res.message);
                             return false;
                         }
                     }

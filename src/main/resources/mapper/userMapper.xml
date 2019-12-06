@@ -4,7 +4,7 @@
 <mapper namespace="com.demo.webboard.user.mapper.UserMapper">
 
     <select id="selectUserRoleList" resultType="String" >
-        SELECT R.ROLE
+        SELECT R.ROLE   AS role
           FROM USER_ROLE UR
          INNER JOIN ROLE R
             ON UR.ROLE_NO = R.ROLE_NO
@@ -12,12 +12,12 @@
     </select>
 
     <select id="selectUserMap" parameterType="UserVO" resultType="UserVO" >
-        SELECT USER_ID
-             , USER_NAME
-             , NICKNAME
+        SELECT USER_ID  AS userId
+             , USER_NAME AS userName
+             , NICKNAME AS nickname
             <if test='userId != null and userId != ""'>
-             , USER_NO
-             , PASSWORD
+             , USER_NO  AS userNo
+             , PASSWORD AS password
             </if>
           FROM USER
          WHERE 1=1
