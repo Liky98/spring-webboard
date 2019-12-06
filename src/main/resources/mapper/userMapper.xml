@@ -4,20 +4,20 @@
 <mapper namespace="com.demo.webboard.user.mapper.UserMapper">
 
     <select id="selectUserRoleList" resultType="String" >
-        SELECT R.ROLE
+        SELECT R.ROLE AS role
           FROM USER_ROLE UR
          INNER JOIN ROLE R
             ON UR.ROLE_NO = R.ROLE_NO
          WHERE UR.USER_NO = #{userNo}
     </select>
 
-    <select id="selectUserMap" parameterType="UserVO" resultType="UserVO" >
-        SELECT USER_ID
-             , USER_NAME
-             , NICKNAME
+    <select id="selectUserMap" parameterType="com.demo.webboard.user.vo.UserVO" resultType="com.demo.webboard.user.vo.UserVO" >
+        SELECT USER_ID AS userId
+             , USER_NAME AS userName
+             , NICKNAME AS nickname
             <if test='userId != null and userId != ""'>
-             , USER_NO
-             , PASSWORD
+             , USER_NO AS userNo
+             , PASSWORD AS password
             </if>
           FROM USER
          WHERE 1=1
@@ -34,7 +34,7 @@
          </choose>
     </select>
 
-    <select id="selectUserCount" parameterType="UserVO" resultType="int" >
+    <select id="selectUserCount" parameterType="com.demo.webboard.user.vo.UserVO" resultType="int" >
         SELECT COUNT(*)
           FROM USER
          WHERE 1=1
@@ -55,7 +55,7 @@
          </choose>
     </select>
 
-    <update id="updateUserInfo" parameterType="UserVO" >
+    <update id="updateUserInfo" parameterType="com.demo.webboard.user.vo.UserVO" >
         UPDATE USER
            SET PASSWORD = #{password}
            <if test='nickname != null and nickname != ""'>

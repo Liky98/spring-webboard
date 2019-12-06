@@ -1,9 +1,9 @@
 package com.demo.webboard.user.service.impl;
 
+import com.demo.webboard.user.mapper.UserDAO;
+import com.demo.webboard.user.service.UserService;
 import com.demo.webboard.user.vo.UserVO;
 import com.demo.webboard.util.CmmnAbstractServiceImpl;
-import com.demo.webboard.user.mapper.UserMapper;
-import com.demo.webboard.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ import java.util.Map;
 public class UserServiceImpl extends CmmnAbstractServiceImpl implements UserService {
 
     @Autowired
-    private UserMapper userMapper;
+    private UserDAO userMapper;
 
     @Autowired
     private PasswordEncoder passwordEncoder;

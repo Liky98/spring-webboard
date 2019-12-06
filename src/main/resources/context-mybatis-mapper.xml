@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+	        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.2.xsd
+	        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+	        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+	        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd ">
+
+<!--    <tx:annotation-driven></tx:annotation-driven>-->
+
+
+
+    <!-- 트랜잭션 적용 서비스(BO)(AOP로 포인트 컷 처리하여 중복 소스 제거)  -->
+<!--    <aop:config>
+        <aop:pointcut id="serviceOperation" expression="execution(* com.demo..*Impl.*(..))"/>
+
+        <aop:advisor id="trancsactionAdvisor-h2" pointcut-ref="serviceOperation" advice-ref="transactionAdvice-h2"/>
+
+    </aop:config>-->
+
+    <bean id="sqlSessionFactory-h2" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource-h2"/>
+        <property name="mapperLocations">
+            <array>
+                <value>classpath:mapper/*.xml</value>
+            </array>
+        </property>
+    </bean>
+    <bean id="sqlSession-h2" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="close">
+        <constructor-arg index="0" ref="sqlSessionFactory-h2"></constructor-arg>
+    </bean>
+<!--    <bean id="transactionManager-h2" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource-h2"/>
+    </bean>
+    <tx:advice id="transactionAdvice-h2" transaction-manager="transactionManager-h2">
+        <tx:attributes>
+            <tx:method name="insert*" rollback-for="Exception"/>
+            <tx:method name="update*" rollback-for="Exception"/>
+            <tx:method name="delete*" rollback-for="Exception"/>
+        </tx:attributes>
+    </tx:advice>-->
+
+</beans>

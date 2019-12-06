@@ -2,20 +2,42 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.demo.webboard.board.mapper.BoardMapper">
-
-    <select id="selectBoardList" resultType="BoardVO">
-        SELECT BOARD_NO
-             , BOARD_NAME
+    <sql id="select-from-board">
+        SELECT BOARD_NO AS boardNo
+             , BOARD_NAME AS boardName
           FROM BOARD
+    </sql>
+
+    <sql id="select-from-post">
+        SELECT BOARD_NO AS boardNo
+             , POST_NO AS postNo
+             , USER_ID AS userId
+             , NICKNAME AS nickname
+             , TITLE AS title
+             , CONTENT AS content
+             , FORMATDATETIME(CREATE_DT, 'yyyy-MM-dd HH:mm:ss') AS createDt
+             , FORMATDATETIME(UPDATE_DT, 'yyyy-MM-dd HH:mm:ss') AS updateDt
+          FROM POST
+    </sql>
+
+    <sql id="where-board">
+         WHERE BOARD_NO = #{boardNo}
+    </sql>
+
+    <sql id="where-post">
+         WHERE BOARD_NO = #{boardNo}
+           AND POST_NO = #{postNo}
+    </sql>
+
+    <select id="selectBoardList" resultType="com.demo.webboard.board.vo.BoardVO">
+        <include refid="select-from-board" />
          ORDER BY BOARD_NO ASC
     </select>
-    <select id="selectBoardMap" resultType="BoardVO">
-        SELECT BOARD_NO
-             , BOARD_NAME
-          FROM BOARD
-         WHERE BOARD_NO = #{boardNo}
+    <select id="selectBoardMap" resultType="com.demo.webboard.board.vo.BoardVO">
+        <include refid="select-from-board" />
+        <include refid="where-board" />
     </select>
-    <insert id="insertBoardMap" parameterType="BoardVO" useGeneratedKeys="false">
+    <insert id="insertBoardMap" parameterType="com.demo.webboard.board.vo.BoardVO" useGeneratedKeys="false">
         <selectKey keyProperty="boardNo" resultType="long" order="AFTER">
             SELECT MAX(BOARD_NO) FROM BOARD;
         </selectKey>
@@ -25,39 +47,32 @@
             #{boardName}
         )
     </insert>
-    <delete id="deleteBoardMap" parameterType="BoardVO">
+    <delete id="deleteBoardMap" parameterType="com.demo.webboard.board.vo.BoardVO">
         DELETE FROM BOARD
-        WHERE BOARD_NO = #{boardNo}
+        <include refid="where-board" />
     </delete>
 
 
 
-    <select id="selectPostListCount" parameterType="BoardVO" resultType="int">
+    <select id="selectPostListCount" parameterType="com.demo.webboard.board.vo.BoardVO" resultType="int">
         SELECT COUNT(*) CNT
           FROM POST
-         WHERE BOARD_NO = #{boardNo}
+        <include refid="where-board" />
     </select>
-    <select id="selectPostList" parameterType="BoardVO" resultType="BoardVO">
-        SELECT BOARD_NO
-             , POST_NO
-             , USER_ID
-             , NICKNAME
-             , TITLE
-             , FORMATDATETIME(CREATE_DT, 'yyyy-MM-dd HH:mm:ss') AS CREATE_DT
-             , FORMATDATETIME(UPDATE_DT, 'yyyy-MM-dd HH:mm:ss') AS UPDATE_DT
+    <select id="selectPostList" parameterType="com.demo.webboard.board.vo.BoardVO" resultType="com.demo.webboard.board.vo.BoardVO">
+        SELECT *
           FROM (
             SELECT ROWNUM() AS rnum
-                 , *
+                 , p.*
              FROM (
-                SELECT *
-                  FROM POST
+                <include refid="select-from-post" />
                  WHERE BOARD_NO = #{boardNo}
                  ORDER BY POST_NO DESC
-            )
+            ) p
         )
         <![CDATA[ WHERE rnum > (#{pageNo} * #{pageSize}) - #{pageSize} AND rnum  <= (#{pageNo} * #{pageSize}) ]]>
     </select>
-    <insert id="insertPostMap" parameterType="BoardVO">
+    <insert id="insertPostMap" parameterType="com.demo.webboard.board.vo.BoardVO">
         INSERT INTO POST (
               BOARD_NO
             , USER_ID
@@ -76,29 +91,20 @@
             , NOW()
         )
     </insert>
-    <select id="selectPostMap" parameterType="BoardVO" resultType="BoardVO">
-        SELECT BOARD_NO
-             , USER_ID
-             , NICKNAME
-             , TITLE
-             , CONTENT
-             , FORMATDATETIME(CREATE_DT, 'yyyy-MM-dd HH:mm:ss') AS CREATE_DT
-             , FORMATDATETIME(UPDATE_DT, 'yyyy-MM-dd HH:mm:ss') AS UPDATE_DT
-          FROM POST
-         WHERE BOARD_NO = #{boardNo}
-           AND POST_NO = #{postNo}
+    <select id="selectPostMap" parameterType="com.demo.webboard.board.vo.BoardVO" resultType="com.demo.webboard.board.vo.BoardVO">
+        <include refid="select-from-post" />
+        <include refid="where-post" />
     </select>
-    <update id="updatePostMap" parameterType="BoardVO">
+    <update id="updatePostMap" parameterType="com.demo.webboard.board.vo.BoardVO">
         UPDATE POST
            SET TITLE = #{title}
              , CONTENT = #{content}
              , UPDATE_DT = NOW()
-         WHERE BOARD_NO = #{boardNo}
-           AND POST_NO = #{postNo}
+        <include refid="where-post" />
     </update>
-    <delete id="deletePostMap" parameterType="BoardVO">
+    <delete id="deletePostMap" parameterType="com.demo.webboard.board.vo.BoardVO">
         DELETE FROM POST
-         WHERE BOARD_NO = #{boardNo}
+        <include refid="where-board" />
         <if test='postNo != null and postNo != ""'>
            AND POST_NO = #{postNo}
         </if>

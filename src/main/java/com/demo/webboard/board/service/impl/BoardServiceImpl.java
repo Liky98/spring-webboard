@@ -1,6 +1,6 @@
 package com.demo.webboard.board.service.impl;
 
-import com.demo.webboard.board.mapper.BoardMapper;
+import com.demo.webboard.board.mapper.BoardDAO;
 import com.demo.webboard.board.service.BoardService;
 import com.demo.webboard.board.vo.BoardVO;
 import com.demo.webboard.util.CmmnAbstractServiceImpl;
@@ -15,7 +15,7 @@ import java.util.List;
 public class BoardServiceImpl extends CmmnAbstractServiceImpl implements BoardService {
 
     @Autowired
-    private BoardMapper boardMapper;
+    private BoardDAO boardMapper;
 
     @Override
     public List<BoardVO> selectBoardList() throws Exception {
