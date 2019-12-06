@@ -19,7 +19,7 @@ public class UserDAO {
 
 
     public List<String> selectUserRoleList(String userNo) {
-        return sqlSession.selectList(NAMESPACE + "selectBoardMap", userNo);
+        return sqlSession.selectList(NAMESPACE + "selectUserRoleList", userNo);
     }
 
     public UserVO selectUserMap(UserVO userVO) {
