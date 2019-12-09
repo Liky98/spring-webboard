@@ -21,8 +21,8 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'	// jdbc
+	implementation 'org.springframework.boot:spring-boot-starter-security'	// spring security
 	implementation 'org.springframework.security:spring-security-taglibs'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
@@ -30,6 +30,7 @@ dependencies {
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.0'
 	implementation 'commons-collections:commons-collections:3.2'
 	implementation 'org.apache.commons:commons-lang3:3.4'
+	implementation 'ch.qos.logback:logback-classic'	// logback
 	implementation 'org.sitemesh:sitemesh:3.0.1'  // sitemesh
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
