@@ -30,6 +30,7 @@ dependencies {
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.0'
 	implementation 'commons-collections:commons-collections:3.2'
 	implementation 'org.apache.commons:commons-lang3:3.4'
+	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'	// log4j
 	implementation 'ch.qos.logback:logback-classic'	// logback
 	implementation 'org.sitemesh:sitemesh:3.0.1'  // sitemesh
 	compileOnly 'org.projectlombok:lombok'
