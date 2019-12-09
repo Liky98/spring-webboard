@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title><sitemesh:write property="title" /></title>
     <script src="/js/common/include.js" charset="utf-8"></script>
     <sitemesh:write property="head" />
 </head>
