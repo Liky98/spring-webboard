@@ -5,13 +5,10 @@
 <head>
     <title>사이트 : 사용자페이지</title>
 
-    <script src="/js/common/include.js" charset="utf-8"></script>
     <link rel="stylesheet" type="text/css" href="/css/style.css" />
     <script type="text/javascript" src="/js/main/user.js" ></script>
 </head>
 <body>
-
-<%@ include file="/WEB-INF/view/include/header.jsp" %>
 
 <section id="container" class="container-u">
     <form id="userForm" class="form-u" onsubmit="$user.ui.update(this);return false;">
