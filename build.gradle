@@ -31,6 +31,8 @@ dependencies {
 	implementation 'commons-collections:commons-collections:3.2'
 	implementation 'org.apache.commons:commons-lang3:3.4'
 	implementation 'org.apache.commons:commons-dbcp2'
+	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16' // sql log
+    implementation 'ch.qos.logback:logback-classic'	// logback
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.projectlombok:lombok'
