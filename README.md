@@ -207,10 +207,10 @@ public class ServletInitializer extends SpringBootServletInitializer {
 
 ## Spring Validator
 일단 테스트로 BoardName만 validation 처리함.<br/>
-Board.java
+BoardVO.java
 ```
 @Data
-public class Board extends Paging {
+public class BoardVO extends Paging {
 
     private Long boardNo;
 
@@ -222,7 +222,7 @@ Controller.java
 ```
     @PostMapping("/board")
     @ResponseBody
-    public Map<String, Object> createBoardMap(@RequestBody Board board, BindingResult bindingResult) throws Exception {
+    public Map<String, Object> createBoardMap(@RequestBody BoardVO boardVO, BindingResult bindingResult) throws Exception {
          if (bindingResult.hasErrors()) {
             // validation처리
         }
