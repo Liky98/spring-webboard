@@ -18,8 +18,8 @@ spring:
       charset: UTF-8
       enabled: true
       force: true
-#  main:
-#    allow-bean-definition-overriding: true
+  main:
+    allow-bean-definition-overriding: true
 
 server:
   port: 9898

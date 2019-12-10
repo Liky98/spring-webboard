@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerA
 import org.springframework.context.annotation.ImportResource;
 
 @ImportResource({ "classpath:context-datasource.xml", "classpath:context-mybatis-mapper.xml" })
-@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class/*, DataSourceTransactionManagerAutoConfiguration.class*/ })
+@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class, DataSourceTransactionManagerAutoConfiguration.class })
 public class Application {
 
 	public static void main(String[] args) {

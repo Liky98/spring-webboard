@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-//@Transactional
 public class BoardServiceImpl extends CmmnAbstractServiceImpl implements BoardService {
 
     @Autowired
@@ -28,7 +27,7 @@ public class BoardServiceImpl extends CmmnAbstractServiceImpl implements BoardSe
     }
 
     @Override
-    public String insertBoardMap(BoardVO boardVO) throws Exception {
+    public String insertBoardMap(BoardVO boardVO) {
         String result;
         try {
             boardMapper.insertBoardMap(boardVO);
@@ -46,9 +45,6 @@ public class BoardServiceImpl extends CmmnAbstractServiceImpl implements BoardSe
 
     @Override
     public int deleteBoardMap(long boardNo) {
-        DefaultTransactionManager tx = getTransactionManager(); // 트랜잭션 처리
-        tx.start();
-
         int result;
         try {
             BoardVO boardVO = new BoardVO();
@@ -57,10 +53,7 @@ public class BoardServiceImpl extends CmmnAbstractServiceImpl implements BoardSe
             result = boardMapper.deleteBoardMap(boardVO);
         } catch (Exception e) {
             result = -1;
-            tx.rollback();
         }
-        tx.commit();
-        tx.end();
         return result;
     }
 
