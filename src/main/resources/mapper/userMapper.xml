@@ -20,7 +20,7 @@
              , PASSWORD AS password
             </if>
           FROM USER
-         WHERE 1=1
+        <where>
          <choose>
              <when test='userNo != null and userNo != ""'>
                  AND USER_NO = #{userNo}
@@ -28,16 +28,14 @@
              <when test='userId != null and userId != ""'>
                  AND USER_ID = #{userId}
              </when>
-             <otherwise>
-                 AND 1=2
-             </otherwise>
          </choose>
+        </where>
     </select>
 
     <select id="selectUserCount" parameterType="com.demo.webboard.user.vo.UserVO" resultType="int" >
         SELECT COUNT(*)
           FROM USER
-         WHERE 1=1
+        <where>
          <choose>
              <when test='userNo != null and userNo != ""'>
                  AND USER_NO = #{userNo}
@@ -49,10 +47,8 @@
                  AND USER_ID = #{userId}
                  AND USER_NAME = #{userName}
              </when>
-             <otherwise>
-                 AND 1=2
-             </otherwise>
          </choose>
+        </where>
     </select>
 
     <update id="updateUserInfo" parameterType="com.demo.webboard.user.vo.UserVO" >
