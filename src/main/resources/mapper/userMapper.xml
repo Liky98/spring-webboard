@@ -4,63 +4,59 @@
 <mapper namespace="com.demo.webboard.user.mapper.UserMapper">
 
     <select id="selectUserRoleList" resultType="String" >
-        SELECT R.ROLE
+        SELECT R.ROLE AS role
           FROM USER_ROLE UR
          INNER JOIN ROLE R
             ON UR.ROLE_NO = R.ROLE_NO
          WHERE UR.USER_NO = #{userNo}
     </select>
 
-    <select id="selectUserMap" parameterType="UserVO" resultType="UserVO" >
-        SELECT USER_ID
-             , USER_NAME
-             , NICKNAME
-            <if test='userId != null and userId != ""'>
-             , USER_NO
-             , PASSWORD
-            </if>
-          FROM USER
-         WHERE 1=1
-         <choose>
-             <when test='userNo != null and userNo != ""'>
-                 AND USER_NO = #{userNo}
-             </when>
-             <when test='userId != null and userId != ""'>
-                 AND USER_ID = #{userId}
-             </when>
-             <otherwise>
-                 AND 1=2
-             </otherwise>
-         </choose>
+    <select id="selectUserMap" parameterType="com.demo.webboard.user.vo.UserVO" resultType="com.demo.webboard.user.vo.UserVO" >
+        SELECT USER_ID AS userId
+        , USER_NAME AS userName
+        , NICKNAME AS nickname
+        <if test='userId != null and userId != ""'>
+            , USER_NO AS userNo
+            , PASSWORD AS password
+        </if>
+        FROM USER
+        <where>
+            <choose>
+                <when test='userNo != null and userNo != ""'>
+                    AND USER_NO = #{userNo}
+                </when>
+                <when test='userId != null and userId != ""'>
+                    AND USER_ID = #{userId}
+                </when>
+            </choose>
+        </where>
     </select>
 
-    <select id="selectUserCount" parameterType="UserVO" resultType="int" >
+    <select id="selectUserCount" parameterType="com.demo.webboard.user.vo.UserVO" resultType="int" >
         SELECT COUNT(*)
-          FROM USER
-         WHERE 1=1
-         <choose>
-             <when test='userNo != null and userNo != ""'>
-                 AND USER_NO = #{userNo}
-             </when>
-             <when test='nickname != null and nickname != ""'>
-                 AND NICKNAME = #{nickname}
-             </when>
-             <when test='userId != null and userId != "" and userName != null and userName != ""'>
-                 AND USER_ID = #{userId}
-                 AND USER_NAME = #{userName}
-             </when>
-             <otherwise>
-                 AND 1=2
-             </otherwise>
-         </choose>
+        FROM USER
+        <where>
+            <choose>
+                <when test='userNo != null and userNo != ""'>
+                    AND USER_NO = #{userNo}
+                </when>
+                <when test='nickname != null and nickname != ""'>
+                    AND NICKNAME = #{nickname}
+                </when>
+                <when test='userId != null and userId != "" and userName != null and userName != ""'>
+                    AND USER_ID = #{userId}
+                    AND USER_NAME = #{userName}
+                </when>
+            </choose>
+        </where>
     </select>
 
-    <update id="updateUserInfo" parameterType="UserVO" >
+    <update id="updateUserInfo" parameterType="com.demo.webboard.user.vo.UserVO" >
         UPDATE USER
-           SET PASSWORD = #{password}
-           <if test='nickname != null and nickname != ""'>
-             , NICKNAME = #{nickname}
-           </if>
-         WHERE USER_ID = #{userId}
+        SET PASSWORD = #{password}
+        <if test='nickname != null and nickname != ""'>
+            , NICKNAME = #{nickname}
+        </if>
+        WHERE USER_ID = #{userId}
     </update>
 </mapper>
