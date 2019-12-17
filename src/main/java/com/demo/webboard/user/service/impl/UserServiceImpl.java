@@ -18,19 +18,19 @@ import java.util.Map;
 public class UserServiceImpl extends CmmnAbstractServiceImpl implements UserService {
 
     @Autowired
-    private UserDAO userMapper;
+    private UserDAO userDAO;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Override
     public List<String> selectUserRoleList(String userNo) throws Exception {
-        return userMapper.selectUserRoleList(userNo);
+        return userDAO.selectUserRoleList(userNo);
     }
 
     @Override
     public UserVO selectUserMap(UserVO userVO) throws Exception {
-        return userMapper.selectUserMap(userVO);
+        return userDAO.selectUserMap(userVO);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class UserServiceImpl extends CmmnAbstractServiceImpl implements UserServ
         // 해당 user가 있는지 check
         UserVO paramVO = new UserVO();
         paramVO.setUserId(userVO.getUserId());
-        paramVO = userMapper.selectUserMap(paramVO);
+        paramVO = userDAO.selectUserMap(paramVO);
         if (!passwordEncoder.matches(password, paramVO.getPassword())) {
             return 2;   // 비밀번호 틀림
         }
@@ -60,7 +60,7 @@ public class UserServiceImpl extends CmmnAbstractServiceImpl implements UserServ
             // 기존 닉네임과 변경 닉네임이 같지않으면 닉네임 중복 체크
             paramVO = new UserVO();
             paramVO.setNickname(userVO.getNickname());
-            if (0 < userMapper.selectUserCount(paramVO)) {
+            if (0 < userDAO.selectUserCount(paramVO)) {
                 return 4;   // 이미 존재하는 닉네임
             }
         }
@@ -69,7 +69,7 @@ public class UserServiceImpl extends CmmnAbstractServiceImpl implements UserServ
         int result;
         try {
             userVO.setPassword(passwordEncoder.encode(password2));
-            result = userMapper.updateUserInfo(userVO);   // 정보 수정 성공 (return 1)
+            result = userDAO.updateUserInfo(userVO);   // 정보 수정 성공 (return 1)
 
             // session 다시
             sessionVO.setNickname(userVO.getNickname());    // 변경된 nickname을 설정한다
@@ -87,12 +87,12 @@ public class UserServiceImpl extends CmmnAbstractServiceImpl implements UserServ
         int result;
 
         try {
-            result = userMapper.selectUserCount(userVO);    // userId와 userName으로 user 존재 유무 확인
+            result = userDAO.selectUserCount(userVO);    // userId와 userName으로 user 존재 유무 확인
 
             if (result == 1) {  // user 존재
                 String password = getRamdomPassword();  // 임시 비밀번호 생성
                 userVO.setPassword(passwordEncoder.encode(password));  // 비밀번호 암호화
-                userMapper.updateUserInfo(userVO);  // 임시 비밀번호로 수정
+                userDAO.updateUserInfo(userVO);  // 임시 비밀번호로 수정
                 resultMap.put("password", password);
             }
         } catch (Exception e) {

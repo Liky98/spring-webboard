@@ -12,6 +12,17 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 @Configuration
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
+    public static final String[] SECURITY_EXCLUDE_PATTERN_ARR = {
+        "/css/**"
+        , "/js/**"
+        , "/error/**"
+        , "/webfonts/**"
+        , "/h2-console/**"
+        , "/favicon.ico"
+        , "/resources/**"
+        , "/WEB-INF/decorators/**"
+        , "/WEB-INF/view/**"
+    };
 
     @Autowired
     private WebAuthenticationProvider authenticationProvider;
@@ -24,7 +35,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/css/**", "/js/**", "/webfonts/**", "/h2-console/**");
+        web.ignoring().antMatchers(SECURITY_EXCLUDE_PATTERN_ARR);
     }
 
     @Override

@@ -4,9 +4,6 @@ spring:
       prefix: /WEB-INF/view/
       suffix: .jsp
   datasource:
-#    url: jdbc:h2:mem:testdb
-#    driver-class-name: org.h2.Driver
-#    username: sa
     sql-script-encoding: UTF-8  # data.sql 한글깨짐 해결
   h2:
     console:
@@ -18,8 +15,8 @@ spring:
       charset: UTF-8
       enabled: true
       force: true
-  main:
-    allow-bean-definition-overriding: true
+#  main:
+#    allow-bean-definition-overriding: true
 
 server:
   port: 9898
