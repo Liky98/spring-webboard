@@ -6,15 +6,9 @@
 <head>
     <title>사이트 : 게시판</title>
 
-    <script src="/js/common/include.js" charset="utf-8"></script>
     <script type="text/javascript" src="/js/board/board.js" ></script>
 </head>
 <body>
-
-<%@ include file="/WEB-INF/view/include/header.jsp" %>
-
-<div id="wrapper">
-<%@ include file="/WEB-INF/view/include/nav.jsp" %>
 
 <div id="content-wrapper">
 
@@ -38,9 +32,6 @@
             </div>
         </div>
     </div>
-</div>
-
-
 </div>
 
 

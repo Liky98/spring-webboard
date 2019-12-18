@@ -2,6 +2,7 @@ package com.demo.webboard.main.web;
 
 import com.demo.webboard.board.service.BoardService;
 import com.demo.webboard.board.vo.BoardVO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -10,17 +11,16 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+@Slf4j
 @Controller
 public class MainController {
-
-//    private Logger LOGGER = Logger.getLogger(this.getClass().getName());
 
     @Resource
     private BoardService boardService;
 
     @GetMapping({"", "/"})
     public ModelAndView mainView(ModelAndView mav, HttpServletRequest request) throws Exception {
-//        LOGGER.info("### MAIN PAGE");
+//        log.info("### MAIN PAGE");
 
         mav.setViewName("main/mainView");
         return mav;

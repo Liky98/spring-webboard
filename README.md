@@ -166,45 +166,51 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 <br/>
 
 
-## ParameterMap Setting
-#### (Deprecated : Value Object 사용으로 변경함)
-`mybatis`를 사용하면서 `parameterType`과 `resultType`으로 `Map`을 사용하였는데 `key`값이 대문자로 저장이 됐다.<br/>
-전자정부프레임워크(egovFramework)에서는 `EgovMap`가 처리해줬지만 spring엔 제공하는 라이브러리가 없다.<br/>
-`key`값을 대문자에서 소문자로 변경하는 방법은 몇가지가 있지만 전자정부프레임워크 방법을 선택했다. 
-[상세](https://blog.naver.com/myh814/221684455925)<br/>
-
-[ParamMap.java](src/main/java/com/demo/webboard/util/ParamMap.java)
+## SiteMesh Filter
+[SiteMeshFilter.java](com.demo.webboard.config.sitemesh/SiteMeshFilter.java)
 ```
-public class ParamMap extends ListOrderedMap {
-    // ...
+public class SiteMeshFilter extends ConfigurableSiteMeshFilter {
+    @Override
+    protected void applyCustomConfiguration(SiteMeshFilterBuilder builder) {
+        final String emptyDeco = "/WEB-INF/decorators/emptyDecorator.jsp";
 
-    public Object put(Object key, Object value) {
-        // StringUtils.lowerCase 로 key값을 소문자로 변경 (USER_NAME => user_name)
-        // JdbcUtils.convertUnderscoreNameToPropertyName 로 key값을 camelCase로 변경 (user_name => userName)
-        return super.put(JdbcUtils.convertUnderscoreNameToPropertyName(StringUtils.lowerCase((String) key)), value);
+        builder
+            .addTagRuleBundle(new Sm2TagRuleBundle())
+            .addDecoratorPath("/user*", emptyDeco)
+            .addDecoratorPath("/admin*", emptyDeco)
+            .addDecoratorPath("/*", "/WEB-INF/decorators/decorator.jsp")
+                .addExcludedPath("/error*")
+                .addExcludedPath("/login*")
+                .addExcludedPath("/pw*")
+                .addExcludedPath("/**/*List")
+                .addExcludedPath("/**/list/**")
+                .addExcludedPath("/favicon.ico");
     }
 }
 ```
-application.yml
+
+ServletInitializer.java
 ```
-mybatis:
-  mapper-locations: classpath*:mapper/*.xml
-  type-aliases-package: com.demo.webboard.util
-```
-mapper/*.xml
-```
-<select id="selectPostList" parameterType="ParamMap" resultType="ParamMap">
-    ...
-</select>
+@Configuration
+public class ServletInitializer extends SpringBootServletInitializer {
+    @Bean
+    public FilterRegistrationBean filterRegistration() {
+        FilterRegistrationBean filter = new FilterRegistrationBean();
+        filter.setOrder(Ordered.LOWEST_PRECEDENCE);
+        filter.setFilter(new SiteMeshFilter()); //sitemesh 필터
+
+        return filter;
+    }
+}
 ```
 <br/>
 
 ## Spring Validator
 일단 테스트로 BoardName만 validation 처리함.<br/>
-Board.java
+BoardVO.java
 ```
 @Data
-public class Board extends Paging {
+public class BoardVO extends Paging {
 
     private Long boardNo;
 
@@ -216,7 +222,7 @@ Controller.java
 ```
     @PostMapping("/board")
     @ResponseBody
-    public Map<String, Object> createBoardMap(@RequestBody Board board, BindingResult bindingResult) throws Exception {
+    public Map<String, Object> createBoardMap(@RequestBody BoardVO boardVO, BindingResult bindingResult) throws Exception {
          if (bindingResult.hasErrors()) {
             // validation처리
         }

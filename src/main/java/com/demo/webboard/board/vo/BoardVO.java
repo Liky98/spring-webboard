@@ -4,14 +4,14 @@ import com.demo.webboard.util.Paging;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 
 @Data
 public class BoardVO extends Paging {
 
     private Long boardNo;
 
-    @NotEmpty
+    @NotBlank(message = "게시판명을 입력해주세요.")
     @Length(max=255)
     private String boardName;
 

@@ -4,13 +4,9 @@
 <html>
 <head>
     <title>사이트 : 관리자페이지</title>
-
-    <script src="/js/common/include.js" charset="utf-8"></script>
     <script type="text/javascript" src="/js/admin/board.js" ></script>
 </head>
 <body>
-
-<%@ include file="/WEB-INF/view/include/header.jsp" %>
 
 <div id="wrapper">
     <ul class="sidebar navbar-nav">
