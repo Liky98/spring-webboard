@@ -1,8 +1,6 @@
 package com.demo.webboard.util;
 
 import com.demo.webboard.user.vo.UserVO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -11,24 +9,9 @@ import javax.servlet.http.HttpSession;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 @Service("myBatisSupport")
 public class CmmnAbstractServiceImpl {
-
-    @Autowired
-    ApplicationContext applicationContext;
-
-    private Logger LOGGER = Logger.getLogger(this.getClass().getName());
-
-    /**
-     * 트랜잭션 처리
-     * @return
-     */
-    protected DefaultTransactionManager getTransactionManager() {
-        return applicationContext.getBean(DefaultTransactionManager.class);
-    }
-
 
     /**
      * session에 존재하는 login vo객제 값을 map으로 포맷하여 반환
