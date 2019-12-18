@@ -8,8 +8,9 @@ import org.springframework.transaction.TransactionException;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
-@Service
-@Scope("prototype")
+@Deprecated
+//@Service
+//@Scope("prototype")
 public class DefaultTransactionManager extends DefaultTransactionDefinition {
 
     private static final long serialVersionUID = -1375151959664915520L;
