@@ -20,39 +20,35 @@
              , PASSWORD AS password
             </if>
           FROM USER
-         WHERE 1=1
-         <choose>
-             <when test='userNo != null and userNo != ""'>
-                 AND USER_NO = #{userNo}
-             </when>
-             <when test='userId != null and userId != ""'>
-                 AND USER_ID = #{userId}
-             </when>
-             <otherwise>
-                 AND 1=2
-             </otherwise>
-         </choose>
+        <where>
+            <choose>
+                <when test='userNo != null and userNo != ""'>
+                    AND USER_NO = #{userNo}
+                </when>
+                <when test='userId != null and userId != ""'>
+                    AND USER_ID = #{userId}
+                </when>
+            </choose>
+        </where>
     </select>
 
     <select id="selectUserCount" parameterType="com.demo.webboard.user.vo.UserVO" resultType="int" >
         SELECT COUNT(*)
-          FROM USER
-         WHERE 1=1
-         <choose>
-             <when test='userNo != null and userNo != ""'>
-                 AND USER_NO = #{userNo}
-             </when>
-             <when test='nickname != null and nickname != ""'>
-                 AND NICKNAME = #{nickname}
-             </when>
-             <when test='userId != null and userId != "" and userName != null and userName != ""'>
-                 AND USER_ID = #{userId}
-                 AND USER_NAME = #{userName}
-             </when>
-             <otherwise>
-                 AND 1=2
-             </otherwise>
-         </choose>
+        FROM USER
+        <where>
+            <choose>
+                <when test='userNo != null and userNo != ""'>
+                    AND USER_NO = #{userNo}
+                </when>
+                <when test='nickname != null and nickname != ""'>
+                    AND NICKNAME = #{nickname}
+                </when>
+                <when test='userId != null and userId != "" and userName != null and userName != ""'>
+                    AND USER_ID = #{userId}
+                    AND USER_NAME = #{userName}
+                </when>
+            </choose>
+        </where>
     </select>
 
     <update id="updateUserInfo" parameterType="com.demo.webboard.user.vo.UserVO" >
