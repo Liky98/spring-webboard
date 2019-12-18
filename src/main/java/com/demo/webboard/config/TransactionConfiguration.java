@@ -18,8 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-@Aspect
-@Configuration
+@Deprecated
+//@Aspect
+//@Configuration
 public class TransactionConfiguration {
     private static final String AOP_POINTCUT_EXPRESSION = "execution(* com.demo.**.*Impl.*(..))";
     private static final int TX_METHOD_TIMEOUT = 3;

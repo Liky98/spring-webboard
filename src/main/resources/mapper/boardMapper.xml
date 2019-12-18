@@ -29,15 +29,15 @@
     </sql>
 
 
-    <select id="selectBoardList" resultType="BoardVO">
+    <select id="selectBoardList" resultType="com.demo.webboard.board.vo.BoardVO">
         <include refid="select-from-board" />
          ORDER BY BOARD_NO ASC
     </select>
-    <select id="selectBoardMap" resultType="BoardVO">
+    <select id="selectBoardMap" resultType="com.demo.webboard.board.vo.BoardVO">
         <include refid="select-from-board" />
         <include refid="where-board" />
     </select>
-    <insert id="insertBoardMap" parameterType="BoardVO" useGeneratedKeys="false">
+    <insert id="insertBoardMap" parameterType="com.demo.webboard.board.vo.BoardVO" useGeneratedKeys="false">
         <selectKey keyProperty="boardNo" resultType="long" order="AFTER">
             SELECT MAX(BOARD_NO) FROM BOARD;
         </selectKey>
@@ -47,19 +47,19 @@
             #{boardName}
         )
     </insert>
-    <delete id="deleteBoardMap" parameterType="BoardVO">
+    <delete id="deleteBoardMap" parameterType="com.demo.webboard.board.vo.BoardVO">
         DELETE FROM BOARD
         <include refid="where-board" />
     </delete>
 
 
 
-    <select id="selectPostListCount" parameterType="BoardVO" resultType="int">
+    <select id="selectPostListCount" parameterType="com.demo.webboard.board.vo.BoardVO" resultType="int">
         SELECT COUNT(*) CNT
           FROM POST
         <include refid="where-board" />
     </select>
-    <select id="selectPostList" parameterType="BoardVO" resultType="BoardVO">
+    <select id="selectPostList" parameterType="com.demo.webboard.board.vo.BoardVO" resultType="com.demo.webboard.board.vo.BoardVO">
         SELECT *
           FROM (
             SELECT ROWNUM() AS rnum
@@ -72,7 +72,7 @@
         )
         <![CDATA[ WHERE rnum > (#{pageNo} * #{pageSize}) - #{pageSize} AND rnum  <= (#{pageNo} * #{pageSize}) ]]>
     </select>
-    <insert id="insertPostMap" parameterType="BoardVO">
+    <insert id="insertPostMap" parameterType="com.demo.webboard.board.vo.BoardVO">
         INSERT INTO POST (
               BOARD_NO
             , USER_ID
@@ -91,18 +91,18 @@
             , NOW()
         )
     </insert>
-    <select id="selectPostMap" parameterType="BoardVO" resultType="BoardVO">
+    <select id="selectPostMap" parameterType="com.demo.webboard.board.vo.BoardVO" resultType="com.demo.webboard.board.vo.BoardVO">
         <include refid="select-from-post" />
         <include refid="where-post" />
     </select>
-    <update id="updatePostMap" parameterType="BoardVO">
+    <update id="updatePostMap" parameterType="com.demo.webboard.board.vo.BoardVO">
         UPDATE POST
            SET TITLE = #{title}
              , CONTENT = #{content}
              , UPDATE_DT = NOW()
         <include refid="where-post" />
     </update>
-    <delete id="deletePostMap" parameterType="BoardVO">
+    <delete id="deletePostMap" parameterType="com.demo.webboard.board.vo.BoardVO">
         DELETE FROM POST
         <include refid="where-board" />
         <if test='postNo != null and postNo != ""'>

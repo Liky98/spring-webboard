@@ -6,6 +6,7 @@ import com.demo.webboard.board.vo.BoardVO;
 import com.demo.webboard.util.CmmnAbstractServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -43,10 +44,8 @@ public class BoardServiceImpl extends CmmnAbstractServiceImpl implements BoardSe
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int deleteBoardMap(long boardNo) {
-//        DefaultTransactionManager tx = getTransactionManager(); // 트랜잭션 처리
-//        tx.start();
-
         int result;
         try {
             BoardVO boardVO = new BoardVO();
@@ -55,10 +54,7 @@ public class BoardServiceImpl extends CmmnAbstractServiceImpl implements BoardSe
             result = boardMapper.deleteBoardMap(boardVO);
         } catch (Exception e) {
             result = -1;
-//            tx.rollback();
         }
-//        tx.commit();
-//        tx.end();
         return result;
     }
 

@@ -11,7 +11,7 @@
          WHERE UR.USER_NO = #{userNo}
     </select>
 
-    <select id="selectUserMap" parameterType="UserVO" resultType="UserVO" >
+    <select id="selectUserMap" parameterType="com.demo.webboard.user.vo.UserVO" resultType="com.demo.webboard.user.vo.UserVO" >
         SELECT USER_ID  AS userId
              , USER_NAME AS userName
              , NICKNAME AS nickname
@@ -34,7 +34,7 @@
          </choose>
     </select>
 
-    <select id="selectUserCount" parameterType="UserVO" resultType="int" >
+    <select id="selectUserCount" parameterType="com.demo.webboard.user.vo.UserVO" resultType="int" >
         SELECT COUNT(*)
           FROM USER
          WHERE 1=1
@@ -55,7 +55,7 @@
          </choose>
     </select>
 
-    <update id="updateUserInfo" parameterType="UserVO" >
+    <update id="updateUserInfo" parameterType="com.demo.webboard.user.vo.UserVO" >
         UPDATE USER
            SET PASSWORD = #{password}
            <if test='nickname != null and nickname != ""'>

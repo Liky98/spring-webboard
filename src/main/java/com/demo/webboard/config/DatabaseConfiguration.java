@@ -39,7 +39,7 @@ public class DatabaseConfiguration {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource);
         sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources("classpath*:mapper/*.xml"));
-        sqlSessionFactoryBean.setTypeAliasesPackage("com.demo.webboard.board.vo, com.demo.webboard.user.vo");
+//        sqlSessionFactoryBean.setTypeAliasesPackage("com.demo.webboard.board.vo, com.demo.webboard.user.vo");
 
 //        org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
 //        configuration.setMapUnderscoreToCamelCase(true);
@@ -56,8 +56,7 @@ public class DatabaseConfiguration {
 
     @Bean
     public PlatformTransactionManager transactionManager() {
-        DataSourceTransactionManager transactionManager = new DataSourceTransactionManager(dataSource());
-        return transactionManager;
+        return new DataSourceTransactionManager(dataSource());
     }
 
 }
