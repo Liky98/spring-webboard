@@ -231,42 +231,8 @@ Controller.java
 <br/>
 
 ## Transaction
-[DefaultTransactionManager.java](src/main/java/com/demo/webboard/util/DefaultTransactionManager.java)
-```
-@Service
-@Scope("prototype")
-public class DefaultTransactionManager extends DefaultTransactionDefinition {
+...
 
-    @Autowired
-    PlatformTransactionManager transactionManager;
-
-    // ...
-```
-extends [CmmnAbstractServiceImpl](src/main/java/com/demo/webboard/util/CmmnAbstractServiceImpl.java)
-```
-@Service
-public class BoardServiceImpl extends CmmnAbstractServiceImpl {
-    // ...
-    @Override
-    public int deleteBoardMap(long boardNo) {
-        DefaultTransactionManager tx = getTransactionManager(); // 트랜잭션 처리
-        tx.start();
-
-        int result;
-        try {
-            Map<String, Object> paramsMap = new HashMap<>();
-            paramsMap.put("boardNo", boardNo);
-            boardMapper.deletePostMap(paramsMap);
-            result = boardMapper.deleteBoardMap(paramsMap);
-        } catch (Exception e) {
-            result = -1;
-            tx.rollback();
-        }
-        tx.commit();
-        tx.end();
-        return result;
-    }
-```
 <br/>
 
 ## Paging
