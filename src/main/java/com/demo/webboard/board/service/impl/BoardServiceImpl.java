@@ -28,35 +28,26 @@ public class BoardServiceImpl extends CmmnAbstractServiceImpl implements BoardSe
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public String insertBoardMap(BoardVO boardVO) {
         String result;
-        try {
-            boardDAO.insertBoardMap(boardVO);
+        boardDAO.insertBoardMap(boardVO);
 
-            result = String.valueOf(boardVO.getBoardNo());
-            if (null == result) {
-                result = "1";
-            }
-        } catch (Exception e) {
-            result = null;
+        result = String.valueOf(boardVO.getBoardNo());
+        if (null == result) {
+            result = "1";
         }
 
         return result;
     }
 
     @Override
-//    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public int deleteBoardMap(long boardNo) {
-        int result;
-        try {
-            BoardVO boardVO = new BoardVO();
-            boardVO.setBoardNo(boardNo);
-            boardDAO.deletePostMap(boardVO);
-            result = boardDAO.deleteBoardMap(boardVO);
-        } catch (Exception e) {
-            result = -1;
-        }
-        return result;
+        BoardVO boardVO = new BoardVO();
+        boardVO.setBoardNo(boardNo);
+        boardDAO.deletePostMap(boardVO);
+        return boardDAO.deleteBoardMap(boardVO);
     }
 
 

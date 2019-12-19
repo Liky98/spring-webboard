@@ -10,9 +10,9 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 
-//@Deprecated
-@Aspect
-@Component
+@Deprecated
+//@Aspect
+//@Component
 @Slf4j
 public class DbTransaction {
 
