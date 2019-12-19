@@ -4,7 +4,7 @@
 ## SKILL
 * 개발도구 : IntelliJ
 * Java : jdk 1.8
-* Framework : SpringBoot 2.1
+* Framework : SpringBoot 2.2
 * Build : Gradle 5.6
 * In-Memory DB : [H2](https://blog.naver.com/myh814/221684433033)
 * Mapper : mybatis
