@@ -11,22 +11,6 @@
 * Front-end : [jsp](https://blog.naver.com/myh814/221684419549), [bootstrap admin](https://startbootstrap.com/templates/sb-admin/)
 <br/><br/>
 
-## BUILD
-처음에 jar 파일로 빌드해서 실행을 했었는데, jsp 경로를 찾지 못했다.<br/>
-경로를 바꿔보고 삽질을 한 결과, springboot가 jar로 된 빌드 파일은 더이상 jsp를 지원하지 않는다고 한다.
-[상세](https://blog.naver.com/myh814/221683685426) <br/>
-> ### 실행방법 1
->> 1. spring-webboard.war를 다운받는다.
->> 2. 터미널에서 `java -jar spring-webboard.war` 을 실행한다.
->> 3. `http://localhost:8080`으로 접속한다.
-> ### 실행방법 2
->> 1. [git파일](https://github.com/moonsiri/spring-webboard)을 다운받는다.
->> 2. 개발툴에 import 하여 실행한다. (단, [Lombok](https://blog.naver.com/myh814/221504225671)설정해줘야함)
-> ### 실행방법 3
->> 1. [git파일](https://github.com/moonsiri/spring-webboard)을 다운받는다.
->> 2. [build.gradle](build.gradle) 파일에서 `// war로 빌드 시` 부분의 주석을 제거한다.
->> 3. war로 빌드 후 실행한다.
-
 <br/>
 <hr/>
 <br/>
