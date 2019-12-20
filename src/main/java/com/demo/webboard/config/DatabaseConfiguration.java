@@ -56,6 +56,8 @@ public class DatabaseConfiguration {
 
     @Bean
     public PlatformTransactionManager transactionManager() {
+//        DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager(dataSource());
+//        dataSourceTransactionManager.setNestedTransactionAllowed(true);
         return new DataSourceTransactionManager(dataSource());
     }
 

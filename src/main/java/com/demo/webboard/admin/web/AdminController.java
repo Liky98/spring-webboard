@@ -22,9 +22,6 @@ public class AdminController {
     @Resource
     private BoardService boardService;
 
-//    @Autowired
-//    BoardValidator boardValidator;
-
     /**
      * 관리자 메인페이지
      * @param mav
@@ -60,7 +57,6 @@ public class AdminController {
     public Map<String, Object> createBoardMap(@RequestBody @Valid BoardVO boardVO, BindingResult bindingResult) throws Exception {
         Map<String, Object> result = new HashMap<>();
 
-//        boardValidator.validate(board, bindingResult);
         if (bindingResult.hasErrors()) {
             List<String> message = new ArrayList<>();
             bindingResult.getAllErrors().forEach(e -> {
@@ -70,11 +66,11 @@ public class AdminController {
             result.put("success", false);
             result.put("message", message.get(0));
         } else {
-            String boardNo = boardService.insertBoardMap(boardVO);
-            if (null != boardNo) {
+            try {
+                String boardNo = boardService.insertBoardMap(boardVO);
                 result.put("success", true);
                 result.put("boardNo", boardNo);
-            } else {
+            } catch (Exception e) {
                 result.put("success", false);
                 result.put("message", "등록 실패");
             }
@@ -93,7 +89,11 @@ public class AdminController {
     @DeleteMapping("/board/{boardNo}")
     @ResponseBody
     public int deleteBoardMap(@PathVariable("boardNo") long boardNo) throws Exception {
-        return boardService.deleteBoardMap(boardNo);
+        try {
+            return boardService.deleteBoardMap(boardNo);
+        } catch (Exception e) {
+            return -1;
+        }
     }
 
 }

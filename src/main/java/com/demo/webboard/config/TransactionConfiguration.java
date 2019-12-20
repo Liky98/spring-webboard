@@ -30,29 +30,27 @@ public class TransactionConfiguration {
 
     @Bean
     public TransactionInterceptor txAdvice() {
-        TransactionInterceptor transactionInterceptor = new TransactionInterceptor();
-        Properties txAttributes = new Properties();
 
-        List<RollbackRuleAttribute> rollbackRules = new ArrayList<>();
-        rollbackRules.add(new RollbackRuleAttribute(Exception.class));
-
+        // PROPAGATION_REQUIRED,ISOLATION_DEFAULT,timeout_3,readOnly
         DefaultTransactionAttribute readOnlyAttribute = new DefaultTransactionAttribute(TransactionDefinition.PROPAGATION_REQUIRED);
         readOnlyAttribute.setReadOnly(true);
         readOnlyAttribute.setTimeout(TX_METHOD_TIMEOUT);
+        String readOnlyTransactionAttributesDefinition = readOnlyAttribute.toString();
 
+        // PROPAGATION_REQUIRED,ISOLATION_DEFAULT,timeout_3,-java.lang.Exception
+        List<RollbackRuleAttribute> rollbackRules = new ArrayList<>();
+        rollbackRules.add(new RollbackRuleAttribute(Exception.class));
         RuleBasedTransactionAttribute writeAttribute = new RuleBasedTransactionAttribute(TransactionDefinition.PROPAGATION_REQUIRED, rollbackRules);
         writeAttribute.setTimeout(TX_METHOD_TIMEOUT);
-
-        // PROPAGATION_REQUIRED,ISOLATION_DEFAULT,timeout_3,readOnly
-        String readOnlyTransactionAttributesDefinition = readOnlyAttribute.toString();
-        // PROPAGATION_REQUIRED,ISOLATION_DEFAULT,timeout_3,-java.lang.Exception
         String writeTransactionAttributesDefinition = writeAttribute.toString();
 
+        Properties txAttributes = new Properties();
         txAttributes.setProperty("select*", readOnlyTransactionAttributesDefinition);
-        txAttributes.setProperty("insert*", "-java.lang.Exception");
+        txAttributes.setProperty("insert*", writeTransactionAttributesDefinition);
         txAttributes.setProperty("update*", writeTransactionAttributesDefinition);
         txAttributes.setProperty("delete*", writeTransactionAttributesDefinition);
 
+        TransactionInterceptor transactionInterceptor = new TransactionInterceptor();
         transactionInterceptor.setTransactionAttributes(txAttributes);
         transactionInterceptor.setTransactionManager(transactionManager);
 

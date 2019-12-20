@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-//@Transactional
 public class BoardServiceImpl extends CmmnAbstractServiceImpl implements BoardService {
 
     @Autowired
@@ -28,35 +27,19 @@ public class BoardServiceImpl extends CmmnAbstractServiceImpl implements BoardSe
     }
 
     @Override
-    public String insertBoardMap(BoardVO boardVO) {
-        String result;
-        try {
-            boardDAO.insertBoardMap(boardVO);
-
-            result = String.valueOf(boardVO.getBoardNo());
-            if (null == result) {
-                result = "1";
-            }
-        } catch (Exception e) {
-            result = null;
-        }
-
-        return result;
+//    @Transactional
+    public String insertBoardMap(BoardVO boardVO) throws Exception {
+        boardDAO.insertBoardMap(boardVO);
+        return String.valueOf(boardVO.getBoardNo());
     }
 
     @Override
-//    @Transactional(rollbackFor = Exception.class)
-    public int deleteBoardMap(long boardNo) {
-        int result;
-        try {
-            BoardVO boardVO = new BoardVO();
-            boardVO.setBoardNo(boardNo);
-            boardDAO.deletePostMap(boardVO);
-            result = boardDAO.deleteBoardMap(boardVO);
-        } catch (Exception e) {
-            result = -1;
-        }
-        return result;
+    @Transactional(rollbackFor = Exception.class)
+    public int deleteBoardMap(long boardNo) throws Exception {
+        BoardVO boardVO = new BoardVO();
+        boardVO.setBoardNo(boardNo);
+        boardDAO.deletePostMap(boardVO);
+        return boardDAO.deleteBoardMap(boardVO);
     }
 
 
@@ -72,18 +55,10 @@ public class BoardServiceImpl extends CmmnAbstractServiceImpl implements BoardSe
     }
 
     @Override
-    public int insertPostMap(BoardVO boardVO) {
-        int result = 0;
-        try {
-            boardVO.setUserId(getUserId());
-            boardVO.setNickname(getNickname());
-            boardDAO.insertPostMap(boardVO);
-            result = 1;
-        } catch (Exception e) {
-            result = -1;
-        }
-
-        return result;
+    public void insertPostMap(BoardVO boardVO) {
+        boardVO.setUserId(getUserId());
+        boardVO.setNickname(getNickname());
+        boardDAO.insertPostMap(boardVO);
     }
 
     @Override
