@@ -5,9 +5,9 @@
 
 
 ## xml로 Transaction aop 
-[context-datasource.xml](src/main/resources/context-datasource.xml)
-[context-mybatis-mapper.xml](src/main/resources/context-mybatis-mapper.xml)
-[Application.java](src/main/java/com/demo/webboard/Application.java)
+[context-datasource.xml](src/main/resources/context-datasource.xml)<br/>
+[context-mybatis-mapper.xml](src/main/resources/context-mybatis-mapper.xml)<br/>
+[Application.java](src/main/java/com/demo/webboard/Application.java)<br/>
 ```java
 @ImportResource({ "classpath:context-datasource.xml", "classpath:context-mybatis-mapper.xml" })
 @SpringBootApplication(exclude = { DataSourceAutoConfiguration.class, DataSourceTransactionManagerAutoConfiguration.class,
