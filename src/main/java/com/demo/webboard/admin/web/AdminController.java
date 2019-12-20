@@ -67,8 +67,14 @@ public class AdminController {
             result.put("success", false);
             result.put("message", message);
         } else {
-            result.put("success", true);
-            result.put("boardNo", boardService.insertBoardMap(boardVO));
+            try {
+                String boardNo = boardService.insertBoardMap(boardVO);
+                result.put("success", true);
+                result.put("boardNo", boardNo);
+            } catch (Exception e) {
+                result.put("success", false);
+                result.put("message", "등록 실패");
+            }
         }
 
         return result;
@@ -84,7 +90,11 @@ public class AdminController {
     @DeleteMapping("/board/{boardNo}")
     @ResponseBody
     public int deleteBoardMap(@PathVariable("boardNo") long boardNo) throws Exception {
-        return boardService.deleteBoardMap(boardNo);
+        try {
+            return boardService.deleteBoardMap(boardNo);
+        } catch (Exception e) {
+            return -1;
+        }
     }
 
 }

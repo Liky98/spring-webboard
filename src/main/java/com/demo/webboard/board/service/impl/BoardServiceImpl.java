@@ -27,16 +27,11 @@ public class BoardServiceImpl extends CmmnAbstractServiceImpl implements BoardSe
 
     @Override
     public String insertBoardMap(BoardVO boardVO) {
-        String result;
-        try {
-            boardDAO.insertBoardMap(boardVO);
+        boardDAO.insertBoardMap(boardVO);
 
-            result = String.valueOf(boardVO.getBoardNo());
-            if (null == result) {
-                result = "1";
-            }
-        } catch (Exception e) {
-            result = null;
+        String result = String.valueOf(boardVO.getBoardNo());
+        if (null == result) {
+            result = "1";
         }
 
         return result;
@@ -44,16 +39,10 @@ public class BoardServiceImpl extends CmmnAbstractServiceImpl implements BoardSe
 
     @Override
     public int deleteBoardMap(long boardNo) {
-        int result;
-        try {
-            BoardVO boardVO = new BoardVO();
-            boardVO.setBoardNo(boardNo);
-            boardDAO.deletePostMap(boardVO);
-            result = boardDAO.deleteBoardMap(boardVO);
-        } catch (Exception e) {
-            result = -1;
-        }
-        return result;
+        BoardVO boardVO = new BoardVO();
+        boardVO.setBoardNo(boardNo);
+        boardDAO.deletePostMap(boardVO);
+        return boardDAO.deleteBoardMap(boardVO);
     }
 
 
@@ -69,19 +58,10 @@ public class BoardServiceImpl extends CmmnAbstractServiceImpl implements BoardSe
     }
 
     @Override
-    public int insertPostMap(BoardVO boardVO) throws Exception {
-
-        int result = 0;
-        try {
-            boardVO.setUserId(getUserId());
-            boardVO.setNickname(getNickname());
-            boardDAO.insertPostMap(boardVO);
-            result = 1;
-        } catch (Exception e) {
-            result = -1;
-        }
-
-        return result;
+    public void insertPostMap(BoardVO boardVO) throws Exception {
+        boardVO.setUserId(getUserId());
+        boardVO.setNickname(getNickname());
+        boardDAO.insertPostMap(boardVO);
     }
 
     @Override
