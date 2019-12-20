@@ -96,137 +96,20 @@ spring:
 
 <br/>
 
-## [Spring Security](src/main/java/com/demo/webboard/config/security)
+
+## Transaction aop xml
+[context-datasource.xml](src/main/resources/context-datasource.xml)
+[context-mybatis-mapper.xml](src/main/resources/context-mybatis-mapper.xml)
+[Application.java](src/main/java/com/demo/webboard/Application.java)
 ```java
-@EnableWebSecurity
-@Configuration
-public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
-    // ...
-    @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-            .authorizeRequests()    // 권한요청 처리 설정 메서드
-                .antMatchers("/board/**/post/**").hasAnyRole("USER", "ADMIN")    // post CUD 권한은 ROLE_USER에게만 존재
-                .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")   // 사용자 페이지는 ROLE_USER에게만 존재
-                .antMatchers("/admin/**").hasRole("ADMIN")   // 관리자 페이지는 ROLE_ADMIN에게만 존재
-                .anyRequest().permitAll()   // 다른 요청은 누구든지 접근 가능
-                .and()
-            .formLogin()
-                .loginPage("/login").permitAll()    // 로그인 기본 url
-                .loginProcessingUrl("/login")
-                .successHandler(authenticationSuccessHandler)
-                .and()
-            .logout()
-                .logoutSuccessUrl("/").permitAll()
-                .and()
-            .csrf()
-                .ignoringAntMatchers("/h2-console/**")
-                .disable(); // GET메소드는 문제가 없는데 POST메소드만 안되서 CSRF 비활성화 시킴
-    }
-    // ...
+@ImportResource({ "classpath:context-datasource.xml", "classpath:context-mybatis-mapper.xml" })
+@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class, DataSourceTransactionManagerAutoConfiguration.class,
+		TransactionAutoConfiguration.class}) // https://github.com/WOWHans/decoration/issues/1
+public class Application {
+
+	public static void main(String[] args) {
+		SpringApplication.run(Application.class, args);
+	}
+
 }
-```
-#### [ROLE](https://blog.naver.com/myh814/221684510475)
-|ROLE_NO|ROLE|
-|---|---|
-|1|ADMIN|
-|2|USER|
-
-#### [Password Encoding](src/main/java/com/demo/webboard/config/security/WebAuthenticationProvider.java)
-```
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-```
-#### Find Password - [Create temporary password](src/main/java/com/demo/webboard/main/service/impl/UserServiceImpl.java)
-```
-    private String getRamdomPassword() {
-        char[] charSet = new char[] {
-                '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-                'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-                'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-                '!', '@', '#', '$', '%', '^', '&' };
-
-        StringBuffer sb = new StringBuffer();
-        SecureRandom sr = new SecureRandom();
-        sr.setSeed(new Date().getTime());
-
-        int idx = 0;
-        int len = charSet.length;
-        for (int i=0; i<10; i++) {
-//            idx = (int) (len * Math.random());
-            idx = sr.nextInt(len);    // 강력한 난수를 발생시키기 위해 SecureRandom을 사용한다.
-            sb.append(charSet[idx]);
-        }
-
-        return sb.toString();
-    }
-```
-<br/>
-
-
-## Spring Validator
-일단 테스트로 BoardName만 validation 처리함.<br/>
-Board.java
-```
-@Data
-public class Board extends Paging {
-
-    private Long boardNo;
-
-    @NotEmpty
-    @Length(max=255)
-    private String boardName;
-```
-Controller.java
-```
-    @PostMapping("/board")
-    @ResponseBody
-    public Map<String, Object> createBoardMap(@RequestBody Board board, BindingResult bindingResult) throws Exception {
-         if (bindingResult.hasErrors()) {
-            // validation처리
-        }
-// ...
-```
-<br/>
-
-## Transaction
-테스트 중...
-<br/>
-
-## Paging
-[Paging.java](src/main/java/com/demo/webboard/util/Paging.java)
-```
-public class Paging {
-    /**
-     * totalCount   : 게시 글 전체 수
-     * pageSize     : 한 페이지의 게시 글 수
-     * navSize      : 한단락 크기 (페이징 네비 크기)
-     * firstPageNo  : 첫 번째 페이지 번호
-     * prevPageNo   : 이전 페이지 번호
-     * startPageNo  : 시작 페이지 (페이징 네비 기준)
-     * pageNo       : 페이지 번호
-     * endPageNo    : 끝 페이지 (페이징 네비 기준)
-     * nextPageNo   : 다음 페이지 번호
-     * finalPageNo  : 마지막 페이지 번호
-     *
-     * @param paramsMap
-     * @return
-     */
-    public void makePaging() makePaging(Map<String, Object> paramsMap) {
-        // ...
-```
-Controller
-```
-        vo.setTotalCount(totalCount);
-        vo.setUrl(url);
-        vo.setPageNo(pageNo);
-        vo.makePaging();
-        // select list
-        paramsMap.put("list", list);
-```
-include [paging.jsp](src/main/webapp/WEB-INF/view/include/paging.jsp)
-```
-    <%@ include file="/WEB-INF/view/include/paging.jsp" %>
 ```
