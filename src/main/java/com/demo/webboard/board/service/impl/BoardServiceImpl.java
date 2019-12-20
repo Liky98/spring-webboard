@@ -30,7 +30,13 @@ public class BoardServiceImpl extends CmmnAbstractServiceImpl implements BoardSe
 //    @Transactional
     public String insertBoardMap(BoardVO boardVO) throws Exception {
         boardDAO.insertBoardMap(boardVO);
-        return String.valueOf(boardVO.getBoardNo());
+
+        String result = String.valueOf(boardVO.getBoardNo());
+        if (null == result) {
+            result = "1";
+        }
+
+        return result;
     }
 
     @Override
