@@ -13,7 +13,7 @@ public interface BoardService {
 
     int selectPostListCount(BoardVO boardVO) throws Exception;
     List<BoardVO> selectPostList(BoardVO boardVO) throws Exception;
-    int insertPostMap(BoardVO boardVO) throws Exception;
+    void insertPostMap(BoardVO boardVO) throws Exception;
     BoardVO selectPostMap(BoardVO boardVO) throws Exception;
     int updatePostMap(BoardVO boardVO) throws Exception;
     int deletePostMap(BoardVO boardVO) throws Exception;

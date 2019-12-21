@@ -72,16 +72,20 @@ public class BoardController {
 
     /**
      * 게시물 등록
-     * @param boardNo
+     *
      * @param boardVO
      * @return
      * @throws Exception
      */
     @PostMapping("/{boardNo}/post")
     @ResponseBody
-    public int createPost(@PathVariable("boardNo") long boardNo, @RequestBody BoardVO boardVO) throws Exception {
-
-        return boardService.insertPostMap(boardVO);
+    public int createPost(@RequestBody BoardVO boardVO) {
+        try {
+            boardService.insertPostMap(boardVO);
+            return 1;
+        } catch (Exception e) {
+            return -1;
+        }
     }
 
     /**

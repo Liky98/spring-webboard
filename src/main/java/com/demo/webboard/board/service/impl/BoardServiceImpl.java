@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-//@Transactional
 public class BoardServiceImpl extends CmmnAbstractServiceImpl implements BoardService {
 
     @Autowired
@@ -28,12 +27,11 @@ public class BoardServiceImpl extends CmmnAbstractServiceImpl implements BoardSe
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public String insertBoardMap(BoardVO boardVO) {
-        String result;
+//    @Transactional
+    public String insertBoardMap(BoardVO boardVO) throws Exception {
         boardDAO.insertBoardMap(boardVO);
 
-        result = String.valueOf(boardVO.getBoardNo());
+        String result = String.valueOf(boardVO.getBoardNo());
         if (null == result) {
             result = "1";
         }
@@ -43,7 +41,7 @@ public class BoardServiceImpl extends CmmnAbstractServiceImpl implements BoardSe
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public int deleteBoardMap(long boardNo) {
+    public int deleteBoardMap(long boardNo) throws Exception {
         BoardVO boardVO = new BoardVO();
         boardVO.setBoardNo(boardNo);
         boardDAO.deletePostMap(boardVO);
@@ -63,18 +61,10 @@ public class BoardServiceImpl extends CmmnAbstractServiceImpl implements BoardSe
     }
 
     @Override
-    public int insertPostMap(BoardVO boardVO) {
-        int result = 0;
-        try {
-            boardVO.setUserId(getUserId());
-            boardVO.setNickname(getNickname());
-            boardDAO.insertPostMap(boardVO);
-            result = 1;
-        } catch (Exception e) {
-            result = -1;
-        }
-
-        return result;
+    public void insertPostMap(BoardVO boardVO) {
+        boardVO.setUserId(getUserId());
+        boardVO.setNickname(getNickname());
+        boardDAO.insertPostMap(boardVO);
     }
 
     @Override
