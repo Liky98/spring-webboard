@@ -167,7 +167,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
 ## SiteMesh Filter
-[SiteMeshFilter.java](com.demo.webboard.config.sitemesh/SiteMeshFilter.java)
+[SiteMeshFilter.java](src/main/java/com/demo/webboard/config/sitemesh/SiteMeshFilter.java)
 ```
 public class SiteMeshFilter extends ConfigurableSiteMeshFilter {
     @Override
@@ -230,43 +230,6 @@ Controller.java
 ```
 <br/>
 
-## Transaction
-...
-
-<br/>
-
-## Paging
-[Paging.java](src/main/java/com/demo/webboard/util/Paging.java)
-```
-public class Paging {
-    /**
-     * totalCount   : 게시 글 전체 수
-     * pageSize     : 한 페이지의 게시 글 수
-     * navSize      : 한단락 크기 (페이징 네비 크기)
-     * firstPageNo  : 첫 번째 페이지 번호
-     * prevPageNo   : 이전 페이지 번호
-     * startPageNo  : 시작 페이지 (페이징 네비 기준)
-     * pageNo       : 페이지 번호
-     * endPageNo    : 끝 페이지 (페이징 네비 기준)
-     * nextPageNo   : 다음 페이지 번호
-     * finalPageNo  : 마지막 페이지 번호
-     *
-     * @param paramsMap
-     * @return
-     */
-    public void makePaging() makePaging(Map<String, Object> paramsMap) {
-        // ...
-```
-Controller
-```
-        vo.setTotalCount(totalCount);
-        vo.setUrl(url);
-        vo.setPageNo(pageNo);
-        vo.makePaging();
-        // select list
-        paramsMap.put("list", list);
-```
-include [paging.jsp](src/main/webapp/WEB-INF/view/include/paging.jsp)
-```
-    <%@ include file="/WEB-INF/view/include/paging.jsp" %>
-```
+## [Transaction](https://blog.naver.com/myh814/221742963874)
+@Transactional Annotation 사용<br/>
+[DatabaseConfiguration.java](src/main/java/com/demo/webboard/config/DatabaseConfiguration.java)
