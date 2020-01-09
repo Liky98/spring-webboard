@@ -13,18 +13,6 @@ import java.util.Map;
 @Service("myBatisSupport")
 public class CmmnAbstractServiceImpl {
 
-//    @Autowired
-//    ApplicationContext applicationContext;
-
-//    /**
-//     * 트랜잭션 처리
-//     * @return
-//     */
-//    protected DefaultTransactionManager getTransactionManager() {
-//        return applicationContext.getBean(DefaultTransactionManager.class);
-//    }
-
-
     /**
      * session에 존재하는 login vo객제 값을 map으로 포맷하여 반환
      * @param paramsMap
